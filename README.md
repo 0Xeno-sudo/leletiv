@@ -35,7 +35,7 @@ A képernyőképek a ténylegesen futó alkalmazásból készültek, 2026. szept
 
 ## Mit tartalmaz a nyilvános repó?
 
-Forráskódot, adatbázissémát, teszteket, modellletöltő kódot, dokumentációt és az itt látható öt bemutató-képernyőképet. **Az alkalmazás üres munkatérrel indul:** nincsenek előre feltöltött esetek, betegrekordok, leletek, képanyagok, munkatársak vagy eseménynaplók. A helyi adattár, a korábbi munkatér állapota, az AI-modellsúlyok és a feldolgozható tesztképanyagok nem részei a repónak. Az új indítás nem emel át korábbi telepítésből adatokat.
+Forráskódot, adatbázissémát, teszteket, modellletöltő kódot, dokumentációt és a bemutató-képernyőképeket. **Az alkalmazás üres munkatérrel indul:** nincsenek előre feltöltött esetek, betegrekordok, leletek, képanyagok, munkatársak vagy eseménynaplók. A helyi adattár, a korábbi munkatér állapota, az AI-modellsúlyok és a feldolgozható tesztképanyagok nem részei a repónak. Az új indítás nem emel át korábbi telepítésből adatokat.
 
 A felület alapértelmezésben magyar, HU/EN nyelvváltóval. A legújabb összekapcsolt betegút- és képösszehasonlító modulok egyes szövegei jelenleg csak magyarul érhetők el. A megjelenés Switzer betűtípust, visszafogott színeket, áttekinthető kártyákat és nagyobb vezérlőket használ.
 
@@ -61,9 +61,13 @@ A **Követett demóeset** választó és a **Következő lépés** gomb végigve
 
 ### Áttekintés — `/`
 
+![A Leletív áttekintése szintetikus betegutakkal, nyitott feladatokkal és utánkövetésekkel](docs/screenshots/dashboard.jpg)
+
 Az aktív esetek, onkoteamre előkészített esetek, nyitott teendők és elakadt előfeltételek közös áttekintése. A betegút szakaszaira kattintva szűrhetők az esetek. Láthatók a következő mérföldkövek, a felelőst igénylő feladatok, a visszajelzésre váró utánkövetések és a munkatérben rögzített legutóbbi változások. Az adatok a helyi nyilvántartásból származnak, nem kórházi rendszerek élő adatai.
 
 ### Esetnyilvántartás — `/cases`, `/cases/:caseId`
+
+![Kitalált bemutatóeset összefoglalója és következő mérföldköve](docs/screenshots/case-pathway.jpg)
 
 Új szintetikus eset rögzítése, keresés és szűrés, prioritás és betegútszakasz követése. Az esetlap összefogja a munkadiagnózist, az esetösszefoglalót, a kapcsolódó feladatokat, az előkészítettségi követelményeket, a képalkotó vizsgálatokat és az onkoteam-döntéseket. A rögzített változások újratöltés után is megmaradnak.
 
@@ -73,9 +77,13 @@ Az adott esetből készülő, nyomtatható átadó dokumentum a következő ell�
 
 ### Onkoteam — `/board`
 
+![Onkoteamre előkészített és hiányos demóesetek, valamint rögzített döntések](docs/screenshots/oncology-board.jpg)
+
 Az esetek multidiszciplináris megbeszélésre való előkészítettségének áttekintése. A szükséges feltételek állapota módosítható; az ajánlás, az indoklás és a rögzítő személy dokumentálható. A döntést az orvos vagy a felhasználó adja meg, az alkalmazás nem választ terápiát.
 
 ### Döntéstől az eredményig — `/care`
+
+![Demóeset végrehajtási terve, ellenőrzött lépései és várt MR-vizsgálata](docs/screenshots/care-plan.jpg)
 
 Az onkoteam-döntés végrehajtási lépésekre bontható. Minden lépéshez felelős, határidő, elvárt eredmény és előfeltétel rendelhető; a lépés a feladatlistán is megjelenik. A munka befejezése és az eredmény ellenőrzése külön állapot. Ellenőrzött előfeltétel nélkül a következő lépés nem zárható le ellenőrzöttként.
 
@@ -86,6 +94,8 @@ Ugyanitt nyilvántarthatók a várt vizsgálatok: időpont-egyeztetés, elvégz�
 Esethez kötött képalkotó vizsgálatok nyilvántartása és fájlok feltöltése. A metaadatok D1-adatbázisban, a feltöltött fájlok R2-objektumtárban tárolódnak; az alapértelmezett indítás mindkettőt helyben emulálja. Az archivált NIfTI-kép megnyitható a 3D nézőben. A feltöltés nem PACS-integráció és nem automatikus anonimizálás.
 
 ### 3D képi munkatér — `/volume-lab`
+
+![MNI152 atlasz három metszeti síkja és 3D nézete szimulált régióval](docs/screenshots/brain-slices.jpg)
 
 - NIfTI-1 képtérfogatok megnyitása axiális, koronális és szagittális metszetekben, valamint forgatható 3D nézetben.
 - Kontraszt, a kijelölés láthatósága és térbeli metszősík beállítása.
@@ -110,17 +120,23 @@ A bemenet ismert orientációjú, milliméterben kalibrált, HU-intenzitású NI
 
 ### Kiinduló és kontrollvizsgálat összehasonlítása — `/compare`
 
+![Kiinduló és kontroll geometriai próbaképek és kijelölt régióik összehasonlítása](docs/screenshots/scan-comparison.jpg)
+
 Két NIfTI-vizsgálat és hozzájuk tartozó régiómaszk egymás melletti megnyitása. Egyező geometrián és a felhasználó által megerősített regisztráció mellett szinkronizálható a nézet. A kijelölt régiók térfogata, abszolút és százalékos eltérése összevethető. A közös, megjelent és eltűnt maszkterületek változástérképen ábrázolhatók, NIfTI- és JSON-exporttal.
 
 Az alkalmazás nem regisztrál automatikusan két vizsgálatot. A maszkeltérés önmagában nem progresszió, és az eredmény nem automatikus RECIST- vagy RANO-minősítés.
 
 ### Leletáttekintés és utánkövetés — `/review`
 
+![Kitalált MR-bemutatólelet és a pontos forrásidézet rögzítésére szolgáló felület](docs/screenshots/report-review.jpg)
+
 PDF- vagy szöveges lelet feltöltése, kinyerhető szöveg áttekintése, pontos forrásidézetek és oldalszámok rögzítése. A PDF eredetije visszanyitható. A megfigyelésekhez áttekintő személy és ellenőrzési állapot tartozik. A szövegkinyerés nem OCR: kép formájában beszkennelt leletekhez külön OCR-feldolgozásra lehet szükség.
 
 A forráshoz köthetők kézzel rögzített mérések, vizsgálati dátumok, mérési módszerek és összehasonlíthatósági feltételek. Követhető a változás, indoklással érvényteleníthető hibás mérés. A további teendő felelőshöz és határidőhöz rendelhető, lezárásához külön eredményforrás és dokumentált áttekintés szükséges. Az ellenőrzési csomag JSON-formátumban exportálható. Az alkalmazás nem talál ki leleti tartalmat és nem generál terápiás javaslatot.
 
 ### Feladatkoordináció — `/tasks`
+
+![Demófeladatok táblanézete felelősökkel és állapotokkal](docs/screenshots/tasks-board.jpg)
 
 Esethez kötött teendők létrehozása, felelős hozzárendelése, prioritás, határidő és állapot kezelése. Lista- és táblanézet segíti a nyitott, folyamatban lévő, elakadt és befejezett munka áttekintését. Az ellenőrzött végrehajtási lépésekhez kapcsolt feladatokat lezárási védelem óvja a csendes visszanyitástól.
 

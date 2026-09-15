@@ -1,6 +1,6 @@
 # Leletív – képernyőképek
 
-Az öt JPEG-kép a működő helyi alkalmazás böngészős képernyőképe, 2026. szeptember 15-éről. A képi eredményeket nem retusáltuk és nem generáltunk helyettük látványtervet.
+A tizenegy JPEG-kép a működő helyi alkalmazás böngészős képernyőképe, 2026. szeptember 15-éről. A képi eredményeket nem retusáltuk és nem generáltunk helyettük látványtervet.
 
 | Fájl | Bemutatott funkció | Adatforrás |
 | --- | --- | --- |
@@ -9,6 +9,13 @@ Az öt JPEG-kép a működő helyi alkalmazás böngészős képernyőképe, 202
 | `pet-ct.jpg` | PET/CT aktivitásrégiók képi ellenőrzése | A projektben generált geometriai fantom |
 | `histology.jpg` | Sejtmagjelölések, DAB-pozitivitás, ellenőrzött összesítés | A projektben generált mesterséges sejtmagminta |
 | `case-pathway.jpg` | Esetösszefoglaló és következő betegúti lépés | Kitalált demóeset; a nevek és az orvosi adatok szerkesztett példák |
+
+| `dashboard.jpg` | A Leletív áttekintése szintetikus betegutakkal, nyitott feladatokkal és utánkövetésekkel | A projektben generált szintetikus demóadatok |
+| `oncology-board.jpg` | Onkoteamre előkészített és hiányos demóesetek, valamint rögzített döntések | A projektben generált szintetikus demóadatok |
+| `care-plan.jpg` | Demóeset végrehajtási terve, ellenőrzött lépései és várt MR-vizsgálata | A projektben generált szintetikus demóadatok |
+| `scan-comparison.jpg` | Kiinduló és kontroll geometriai próbaképek és kijelölt régióik összehasonlítása | A projektben generált szintetikus demóadatok |
+| `report-review.jpg` | Kitalált MR-bemutatólelet és a pontos forrásidézet rögzítésére szolgáló felület | A projektben generált szintetikus demóadatok |
+| `tasks-board.jpg` | Demófeladatok táblanézete felelősökkel és állapotokkal | A projektben generált szintetikus demóadatok |
 
 ## Forrásmegjelölés
 
