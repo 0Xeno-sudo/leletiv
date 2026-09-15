@@ -107,6 +107,12 @@ Nyissa meg a **http://127.0.0.1:5173/** címet. Az indító automatikusan alkalm
 3. Rögzítsen hozzá teendőt vagy onkoteam-döntést, majd kövesse a **Döntéstől az eredményig** oldalon.
 4. A képi eszközöket külön is kipróbálhatja megfelelő, szintetikus képfájlokkal.
 
+### Switzer betűtípus
+
+A felület továbbra is a **Switzer** családot használja, ha az a gépen telepítve van. A font nem nyílt forrású: a fájljait és harmadik féltől származó újracsomagolását nem terjesztjük a repóval. A teljes családot a [Fontshare hivatalos oldaláról](https://www.fontshare.com/fonts/switzer), az [ITF feltételeinek](https://www.fontshare.com/licenses/itf-ffl) elfogadásával lehet beszerezni és az operációs rendszerben telepíteni. Ezután indítsa újra a böngészőt, ha szükséges.
+
+Telepített Switzer nélkül a böngésző a CSS-ben megadott Arial/sans-serif tartalékot használja; a betűk szélessége ezért eltérhet. Az alkalmazás nem kér le külső fontot. Távoli vagy mobil használathoz a betűtípus webes terjesztését külön, a jogosult feltételei szerint kell rendezni.
+
 ### A helyi modellek külön telepítése
 
 Python **3.12** és a csomagokhoz elegendő tárhely/memória szükséges. A jelenlegi parancsok macOS/Linux környezetre készültek; natív Windows-telepítést nem ellenőriztünk.
@@ -157,5 +163,7 @@ Nem állítunk hazai piaci kizárólagosságot, igazolt diagnosztikai pontosság
 ## Licenc és közreműködés
 
 A projekt saját forráskódja **Apache-2.0** licencű. A függőségek, a külön letöltött modellek és az atlasz megtartják saját licencfeltételeiket; lásd [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). A licenc nem jelent orvostechnikai engedélyt.
+
+A kiadás garanciavállalás nélkül érhető el, az Apache-2.0 7–9. pontjainak és az alkalmazandó kötelező jognak megfelelően. A klinikai korlátokat, a felelősségi rendelkezések határait és a továbbterjesztés szempontjait a [LEGAL.md](LEGAL.md) ismerteti. A szerzői jogi jelölés a [NOTICE](NOTICE) fájlban található. Ezek a tájékoztatók nem módosítják a szabványos licencet, és nem garantálnak teljes felelősségmentességet.
 
 Hibajelentéshez és példákhoz kizárólag szintetikus adatokat használjon. Ne csatoljon betegadatot, intézményi leletet, belépési adatot vagy teljes alkalmazásnaplót. Részletek: [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md).

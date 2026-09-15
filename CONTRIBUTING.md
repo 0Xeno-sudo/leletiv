@@ -9,3 +9,9 @@ Köszönjük a javításokat és szakmai visszajelzéseket. A projekt kutatási 
 5. Új modellnél dokumentálja a licencet, verziót, súlyellenőrző összeget, bemeneti követelményeket és a validáció határait.
 
 A PR leírása nevezze meg a konkrét problémát, a végső változtatást és az elvégzett ellenőrzést. Ne állítson klinikai pontosságot pusztán sikeres build vagy szintetikus modellfuttatás alapján.
+
+## Hozzájárulások licence
+
+Csak olyan kódot és tartalmat küldjön be, amelyhez megfelelő joga vagy engedélye van. A projektbe szándékosan beküldött hozzájárulásokra az Apache-2.0 5. pontja irányadó, az ott szereplő kivételekkel. Ez nem szerzői jogi átruházás és nem külön közreműködői megállapodás.
+
+Új külső összetevőnél frissítse a [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) fájlt, őrizze meg az előírt jogi jelöléseket, és külön ellenőrizze a modellsúlyok, adatkészletek és betűtípusok feltételeit. A kód nyílt forrású licence önmagában nem rendezi az ilyen állományok felhasználhatóságát. A [LEGAL.md](LEGAL.md) bemutatja a kiadás jelenlegi határait.
