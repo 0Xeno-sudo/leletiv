@@ -1,0 +1,41 @@
+/* Shared clinical workspace refinements; Switzer inherits from the app shell. */
+.care-workspace{border:0;padding:0;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.care-workspace>.care-panel:last-child{grid-column:1/-1}
+.care-panel{background:#fff;border:1px solid #e8e8ed;border-radius:24px;padding:28px;min-width:0;margin:0 0 24px;color:#4b4b50}
+.care-panel h2{font-size:25px;font-weight:650;letter-spacing:-.035em;line-height:1.2;color:#242426;margin:0 0 14px}
+.care-panel h3{font-size:19px;font-weight:650;line-height:1.35;letter-spacing:-.02em;color:#303033;margin:0 0 10px}
+.care-panel p{line-height:1.65;overflow-wrap:anywhere}
+.care-panel label,.care-picker{display:grid;gap:8px;font-size:15px;font-weight:550;min-width:0}
+.care-picker{max-width:520px;margin:0 0 28px}
+.care-panel input:not([type=checkbox]),.care-panel select,.care-panel textarea,.care-picker select{font:inherit;font-size:16px;min-height:46px;max-width:100%;width:100%;box-sizing:border-box;border:1px solid #d3d3d8;border-radius:12px;background-color:#fff;color:#424245;padding:11px 14px}
+.care-panel select,.care-picker select{padding-right:42px}
+.care-panel textarea{min-height:86px;resize:vertical}
+.care-panel input[type=file]{font-size:14px}
+.care-form{display:grid;gap:18px;min-width:0;margin:18px 0;border:0;padding:0}
+.care-form .care-form{margin:0}
+.care-panel .button{min-height:44px;white-space:normal;line-height:1.35;max-width:100%;height:auto}
+.care-panel .file-button input{position:absolute;width:1px;min-height:0;opacity:0}
+.care-panel .stack-check{display:flex;align-items:flex-start;gap:12px;font-size:15px;font-weight:450;line-height:1.55}
+.care-panel .stack-check input{flex:0 0 19px;width:19px;height:19px;margin-top:3px;accent-color:#0071e3}
+.care-panel .care-source,.care-source{background:#f5f5f7;border-radius:16px;padding:18px 20px;line-height:1.65;font-size:15px;margin:20px 0}
+.care-row{border-top:1px solid #e8e8ed;padding-top:24px;margin-top:24px;min-width:0}
+.care-row .status-badge{vertical-align:middle}
+.care-panel details{border:1px solid #e8e8ed;border-radius:16px;margin:18px 0;padding:0 18px;min-width:0}
+.care-panel summary{padding:16px 0;cursor:pointer;color:#343438;font-weight:600;line-height:1.5}
+.care-panel summary:focus-visible{outline:3px solid #0071e3;outline-offset:3px}
+.care-panel small{display:block;color:#626268;line-height:1.55;font-size:13px;font-weight:450}
+.care-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.care-actions h3{margin:0;margin-right:auto}
+.care-success{background:#eef7f0;padding:14px 18px;border-radius:12px;color:#256140}
+.care-overdue{display:inline-block;background:#fff2e8;padding:7px 12px;border-radius:9px;color:#934211;font-size:14px;white-space:normal;line-height:1.5}
+.compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.compare-grid .care-form{grid-template-columns:1fr 1fr}.compare-grid .care-form>label:first-child{grid-column:1/-1}
+.compare-canvas{height:360px;position:relative;border-radius:18px;overflow:hidden;background:#f6f7fa}
+.compare-canvas canvas{width:100%;height:100%;display:block}
+.comparison-result{font-size:27px;font-weight:650;letter-spacing:-.025em;color:#303033;padding:20px 0}
+.lung-assistant progress{width:100%;height:8px;accent-color:#0071e3;margin:10px 0 18px}
+.lung-result{margin-top:26px;padding-top:20px;border-top:1px solid #e8e8ed}
+@media(max-width:1100px){.care-workspace,.compare-grid{grid-template-columns:1fr}.care-panel{padding:24px}.compare-canvas{height:420px}}
+@media(max-width:600px){.care-panel{padding:20px;border-radius:20px}.care-panel h2{font-size:23px}.care-actions{align-items:stretch;flex-direction:column}.compare-canvas{height:310px}.compare-grid .care-form{grid-template-columns:1fr}.care-form .button{width:100%}.care-panel .section-heading{display:block}.care-panel .section-heading>.button{margin-top:12px}}
+@media print{.care-workspace,.compare-grid{display:block}.care-panel{border-color:#ddd;padding:14px;break-inside:auto}.care-row{break-inside:avoid}.care-panel button,.care-panel input[type=file],.care-panel summary{display:none}.compare-canvas{height:300px}.care-panel details:not([open]){display:none}}
+.imaging-shortcuts{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px}.imaging-shortcuts a{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;background:#fff;border:1px solid #e0e0e5;border-radius:12px;color:#444448;font-weight:550;font-size:14px;line-height:1.35;text-decoration:none}.imaging-shortcuts a:hover{color:#0071e3;background:#f5f8ff}.imaging-shortcuts a:focus-visible{outline:3px solid #0071e3;outline-offset:2px}#lung-assistant,#region-assistant,#archive-bridge{scroll-margin-top:24px}

@@ -1,0 +1,65 @@
+import {useEffect,useRef,useState} from 'react';
+import {localize as l,useLanguage,locale} from '../lib/i18n';
+import {convertDicom} from '../lib/dicom';
+import {downloadText} from '../lib/download';
+
+const service='http://127.0.0.1:8789';
+const channels=['t1c','t1','t2','flair'] as const;
+type Channel=typeof channels[number];
+type Report={model:string;modelSha256:string;profile:string;elapsedSeconds:number;reviewStatus:string;regions:{label:number;voxels:number;millilitres:number}[];[key:string]:unknown};
+type Job={id:string;kind?:string;status:'queued'|'running'|'completed'|'failed'|'cancelled';progress:number;stage:string;profile:string;error:string|null;report:Report|null};
+async function request<T>(path:string,init?:RequestInit):Promise<T>{
+ const response=await fetch(service+path,{...init,headers:{'X-NeuroFlow-Research':'1',...init?.headers},signal:init?.signal??AbortSignal.timeout(15_000)});
+ if(!response.ok){const data:unknown=await response.json().catch(()=>({}));throw new Error(data&&typeof data==='object'&&'detail' in data&&typeof data.detail==='string'?data.detail:'The local inference request failed.');}
+ return response.json();
+}
+const labels:Record<number,string>={1:'Non-enhancing / necrotic core',2:'Peritumoral edema',4:'Enhancing tumour'};
+
+export function ScanPipeline({disabled,onView,onResult}:{disabled:boolean;onView:(file:File)=>Promise<void>;onResult:(source:File,mask:File,synthetic:boolean)=>Promise<void>}){
+ useLanguage();
+ const [series,setSeries]=useState<File[]>([]);const [converting,setConverting]=useState(false);const [conversionError,setConversionError]=useState('');
+ const [files,setFiles]=useState<Partial<Record<Channel,File>>>({});const [prepared,setPrepared]=useState(false);
+ const [online,setOnline]=useState<boolean|null>(null);const [weights,setWeights]=useState(false);const [job,setJob]=useState<Job|null>(null);const [sending,setSending]=useState(false);const [error,setError]=useState('');const [loaded,setLoaded]=useState(false);const [reviewed,setReviewed]=useState(false);
+ const [recent,setRecent]=useState<Job[]>([]);const restored=useRef(false);
+ const mounted=useRef(true);const convertAbort=useRef<AbortController|null>(null);const busy=sending||job?.status==='queued'||job?.status==='running';
+ const check=async()=>{try{const health=await request<{weightsInstalled:boolean}>('/health');const runs=(await request<Job[]>('/jobs')).filter(j=>j.kind!=='lung');if(mounted.current){setOnline(true);setWeights(health.weightsInstalled);setRecent(runs);if(!restored.current){restored.current=true;if(runs.length)setJob(runs[0]);}}}catch{if(mounted.current)setOnline(false);}};
+ useEffect(()=>{mounted.current=true;void check();return()=>{mounted.current=false;convertAbort.current?.abort();};},[]);
+ useEffect(()=>{if(job)setRecent(previous=>[job,...previous.filter(item=>item.id!==job.id)]);},[job]);
+ useEffect(()=>{if(!job||!['queued','running'].includes(job.status))return;let stopped=false;let timer:ReturnType<typeof setTimeout>;const poll=async()=>{try{const next=await request<Job>(`/jobs/${job.id}`);if(!stopped){setJob(next);setError('');}}catch{if(!stopped)setError('Connection lost. Reconnect to inspect the job; it may still be running.');}if(!stopped)timer=setTimeout(poll,1500);};timer=setTimeout(poll,700);return()=>{stopped=true;clearTimeout(timer);};},[job?.id,job?.status]);
+ const conversion=async(selection:File[])=>{setConverting(true);setConversionError('');convertAbort.current=new AbortController();try{const results=await convertDicom(selection,convertAbort.current.signal);if(mounted.current)setSeries(results);}catch(e){if(mounted.current)setConversionError(e instanceof Error?e.message:'DICOM conversion failed.');}finally{if(mounted.current)setConverting(false);}};
+ const demoDicom=async()=>{setConverting(true);setConversionError('');try{const results=await Promise.all(Array.from({length:24},async(_,i)=>{const r=await fetch(`/dicom-demo/slice-${String(i).padStart(3,'0')}.dcm`);if(!r.ok)throw new Error('DICOM demo files are unavailable.');return new File([await r.blob()],`slice-${i}.dcm`);}));await conversion(results);}catch{setConversionError('DICOM demo files are unavailable.');setConverting(false);}};
+ const start=async(smoke=false)=>{setSending(true);setError('');setLoaded(false);setReviewed(false);try{let init:RequestInit={method:'POST'};if(!smoke){const body=new FormData();channels.forEach(channel=>body.append(channel,files[channel]!));body.append('prepared','yes');init.body=body;}const next=await request<Job>(smoke?'/smoke':'/jobs',init);if(mounted.current)setJob(next);}catch(e){if(mounted.current)setError(e instanceof Error?e.message:'The local inference request failed.');}finally{if(mounted.current)setSending(false);}};
+ const loadResult=async()=>{if(!job)return;setSending(true);setError('');try{const downloads=await Promise.all(['source','mask'].map(async part=>{const r=await fetch(`${service}/jobs/${job.id}/${part}`,{signal:AbortSignal.timeout(30_000)});if(!r.ok)throw new Error('The result could not be loaded.');return new File([await r.blob()],part==='mask'?'MONAI-prediction.nii.gz':'T1c-source.nii.gz');}));await onResult(downloads[0],downloads[1],job.profile==='synthetic-smoke');setLoaded(true);}catch(e){setError(e instanceof Error?e.message:'The result could not be loaded.');}finally{setSending(false);}};
+ const clear=async()=>{if(!job)return;try{const result=await request<{status:string}>(`/jobs/${job.id}`,{method:'DELETE'});if(result.status==='cleared'){setRecent(previous=>previous.filter(item=>item.id!==job.id));setJob(null);setLoaded(false);setReviewed(false);}else setError('Cancellation requested. The current inference window must finish first.');}catch{setError('The local inference request failed.');}};
+ return <section className="scan-pipeline" aria-label={l('Scan-to-segmentation pipeline')}>
+  <div className="section-heading"><div><span className="section-kicker">{l('From acquisition to review')}</span><h2>{l('Medical model workspace')}</h2></div><span className="pipeline-runtime">{l(online===null?'Checking local engine…':online?(weights?'Local engine ready · CPU':'Model installation required'):'Local engine offline')}<button className="text-button" onClick={()=>void check()}>{l('Reconnect')}</button></span></div>
+  <p className="pipeline-intro">{l('DICOM conversion stays in this browser. Running segmentation sends the four selected sequences only to the inference service on this computer, never to an external AI provider.')}</p>
+  <div className="pipeline-columns">
+   <section className="pipeline-step"><span className="step-number">01</span><h3>{l('Convert DICOM series')}</h3><p>{l('Select a scan folder. Each converted series remains separate so you can inspect and assign the correct MRI sequence.')}</p>
+    <label className={`button secondary file-button ${converting?'disabled':''}`}>{l('Choose DICOM folder')}<input aria-label={l('Choose DICOM folder')} type="file" multiple {...{webkitdirectory:''}} disabled={converting} onChange={e=>{const chosen=Array.from(e.target.files??[]);if(chosen.length)void conversion(chosen);e.target.value='';}}/></label>
+    <button className="text-button" disabled={converting} onClick={()=>void demoDicom()}>{l('Convert synthetic DICOM demo')}</button>
+    {converting&&<div role="status"><span>{l('Converting DICOM…')}</span><button className="text-button" onClick={()=>convertAbort.current?.abort()}>{l('Cancel')}</button></div>}
+    {conversionError&&<p className="mutation-error" role="alert">{l(conversionError)}</p>}
+    <div className="converted-series">{series.map((file,i)=><div key={i}><span>{file.name}<small>{new Intl.NumberFormat(locale(),{maximumFractionDigits:2}).format(file.size/1024/1024)} MB</small></span><button className="text-button" disabled={disabled||busy} onClick={()=>void onView(file)}>{l('View volume')}</button></div>)}</div>
+    <small>{l('Conversion is not registration or skull stripping. Raw DICOM series may still need preprocessing before the model accepts them.')}</small>
+   </section>
+   <section className="pipeline-step"><span className="step-number">02</span><h3>{l('Prepare four MRI sequences')}</h3><p>{l('BraTS glioma model · T1c → T1 → T2 → FLAIR · 1 mm isotropic · matching RAS coordinates.')}</p>
+    <div className="sequence-inputs">{channels.map(channel=><div className="sequence-input" key={channel}><strong>{channel==='t1c'?l('T1 + contrast'):channel.toUpperCase()}</strong><label className="file-button button secondary">{files[channel]?files[channel]!.name:l('Choose NIfTI')}<input type="file" accept=".nii,.nii.gz" aria-label={l(`Choose ${channel.toUpperCase()} sequence`)} disabled={busy} onChange={e=>{const file=e.target.files?.[0];if(file){setFiles(previous=>({...previous,[channel]:file}));setPrepared(false);}e.target.value='';}}/></label>{series.length>0&&<select aria-label={l(`Assign converted ${channel.toUpperCase()} series`)} value="" disabled={busy} onChange={e=>{setFiles(previous=>({...previous,[channel]:series[Number(e.target.value)]}));setPrepared(false);}}><option value="">{l('Use converted series…')}</option>{series.map((f,i)=><option key={i} value={i}>{f.name}</option>)}</select>}</div>)}</div>
+    <label className="research-confirm"><input type="checkbox" checked={prepared} disabled={busy} onChange={e=>setPrepared(e.target.checked)}/><span>{l('These are de-identified research inputs: skull-stripped, co-registered and assigned to the correct sequences. I understand that this model is not validated for patient care.')}</span></label>
+    <button className="button primary" disabled={busy||!online||!weights||!prepared||channels.some(c=>!files[c])} onClick={()=>void start()}>{l('Run tumour segmentation')}</button>
+    <button className="text-button" disabled={busy||!online||!weights} onClick={()=>void start(true)}>{l('Run synthetic model check')}</button><small>{l('The synthetic check runs the actual pretrained weights on a small geometric phantom. It proves execution, not medical accuracy.')}</small>
+    {!online&&<small>{l('Start both local services with:')} <code>npm run dev:full</code></small>}
+   </section>
+   <section className="pipeline-step"><span className="step-number">03</span><h3>{l('Inspect model output')}</h3>
+    {recent.length>0&&<label className="recent-runs"><span>{l('Recent local runs')}</span><select aria-label={l('Recent local runs')} value={job?.id??''} disabled={busy} onChange={async e=>{try{setJob(await request<Job>(`/jobs/${e.target.value}`));setLoaded(false);setReviewed(false);setError('');}catch{setError('Job expired or not found.');}}}><option value="" disabled>{l('Choose a run')}</option>{recent.map(run=><option value={run.id} key={run.id}>{run.id.slice(0,8)} · {l(run.profile==='synthetic-smoke'?'Synthetic check':'Research run')} · {l(run.status)}</option>)}</select></label>}
+    {!job?<p>{l('A completed job provides a source-aligned mask, per-region volumes and a reproducible model/input record.')}</p>:<><div className="inference-status" role="status"><strong>{l(job.stage)}</strong><span>{job.progress}%</span></div><progress max={100} value={job.progress}/><small>{l('Progress indicates processing stages, not an estimated completion time.')}</small>
+    <p>{l(job.profile==='synthetic-smoke'?'Synthetic execution check · not patient imaging':'Research MRI prediction · clinician review required')}</p>
+    {job.error&&<p role="alert" className="mutation-error">{l(job.error)}</p>}
+    {job.report&&<><div className="model-region-list">{job.report.regions.map(region=><div key={region.label}><span><i style={{background:region.label===1?'#d7a135':region.label===2?'#3395df':'#db5e64'}}/>{l(labels[region.label])}</span><strong>{new Intl.NumberFormat(locale(),{maximumFractionDigits:3}).format(region.millilitres)} mL</strong></div>)}</div><p className="model-footnote">MONAI BraTS 0.5.4 · {job.report.elapsedSeconds} s · CPU</p><button className="button primary" disabled={disabled||sending} onClick={()=>void loadResult()}>{l(loaded?'Reload result in viewer':'Open result in 3D')}</button><label className="research-confirm"><input type="checkbox" checked={reviewed} disabled={!loaded} onChange={e=>setReviewed(e.target.checked)}/><span>{l('I have visually inspected this research overlay. This is not clinical approval.')}</span></label><button className="button secondary" onClick={()=>downloadText('neuroflow-model-provenance.json',JSON.stringify({...job.report,reviewStatus:reviewed?'visually-inspected-research-only':'unreviewed',reviewRecordedAt:reviewed?new Date().toISOString():null},null,2))}>{l('Export model provenance')}</button></>}
+    <button className="text-button" onClick={()=>void clear()}>{l(busy?'Cancel job':'Clear local job files')}</button></>}
+    {error&&<p role="alert" className="mutation-error">{l(error)}</p>}
+    <small>{l('Jobs are temporary: clear them here or they expire after one hour on the next service request. No files are saved to the patient archive automatically.')}</small>
+   </section>
+  </div>
+ </section>;
+}
