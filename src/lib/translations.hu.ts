@@ -332,7 +332,7 @@ busy|kihasználtság
 min average queue|perc átlagos várakozás
 Largest queue|Leghosszabb várakozás
 Main constraint:|Fő kapacitáskorlát:
-NeuroFlow capacity model|NeuroFlow kapacitásmodell
+Leletív capacity model|Leletív kapacitásmodell
 Current synthetic pathways|Aktuális bemutató-betegutak
 Planning horizon (min)|Tervezési időtáv (perc)
 Mean queue (min)|Átlagos várakozás (perc)
@@ -437,7 +437,7 @@ Case handoff brief|Esetátadási összefoglaló
 A concise, source-based handover for the next team.|Tömör, forrásadatokra épülő átadás a következő csapatnak.
 Back to pathway|Vissza a betegúthoz
 Print / save PDF|Nyomtatás / PDF mentése
-NeuroFlow · Synthetic demonstration|NeuroFlow · Mesterséges bemutatóadatok
+Leletív · Synthetic demonstration|Leletív · Mesterséges bemutatóadatok
 Situation|Helyzetkép
 Coordinator|Koordinátor
 Evidence & blockers|Adatok és elakadások
@@ -455,7 +455,7 @@ Notes|Jegyzetek
 Voxels|Térbeli képpontok száma
 Volume (mL)|Térfogat (mL)
 Unvalidated research visualization|Nem validált kutatási szemléltetés
-NeuroFlow capacity model|NeuroFlow kapacitásmodell
+Leletív capacity model|Leletív kapacitásmodell
 Current synthetic pathways|Aktuális bemutató-betegutak
 Planning horizon (min)|Tervezési időtáv (perc)
 Completed|Lezárva

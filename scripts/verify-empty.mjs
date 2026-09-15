@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import assert from 'node:assert/strict';
 import {migrate} from './migrate.mjs';
-const root=await mkdtemp(join(tmpdir(),'neuroflow-empty-'));
+const root=await mkdtemp(join(tmpdir(),'leletiv-empty-'));
 const options={...convertV4MiniflareOptions({workers:[{name:'verify',modules:true,script:await readFile('dist/worker/worker.js','utf8'),compatibilityDate:'2026-09-13',compatibilityFlags:['nodejs_compat'],d1Databases:{DB:'verify'},r2Buckets:{IMAGING:'verify'}}]}),resourcePersistencePath:root};
 let mf=new Miniflare(options);
 const request=async(path,body,method='POST',status=200)=>{

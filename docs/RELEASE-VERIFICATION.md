@@ -22,6 +22,8 @@ A kiadás forráskódot, sémát, teszteket és dokumentációt tartalmaz. Nem t
 
 ## Ellenőrzési határok
 
+A Leletív név véglegesítése után a 60 alkalmazásteszt, a 33 Python-teszt, a típusellenőrzés és a build ismét sikeres volt. A helyi szolgáltatáson mind az öt kvantitatív feltöltési folyamat lefutott az új kérésfejléccel. Friss, üres telepítésben a három demóbetegút képfájljai és ismételt betöltése is ellenőrzött. Meglévő telepítésben a korábbi képtár indítási argumentumként való kiválasztásával ugyanazok a képfájlok változatlanul elérhetők maradtak. Öt, vizuálisan ellenőrzött képernyőkép került a dokumentációba, külön forrásmegjelöléssel; valódi betegadat egyik képen sem szerepel.
+
 A vizsgálat nem bizonyít teljes hibamentességet vagy diagnosztikai pontosságot. Valódi betegadatot nem használtunk. Mobil készüléken, natív Windows alatt, nagy szövettani metszeteken és klinikai DICOM-adatbázison nem történt teljes körű tesztelés. A nyomtatható jelentésoldal ellenőrzött; a böngésző nyomtatási ablakából ténylegesen elmentett PDF-fájlt nem vizsgáltuk. A build és egyes Python-függőségek nem blokkoló figyelmeztetéseket adnak.
 
 A korábbi, részletes kvantitatív próbákat az [ADVANCED-VERIFICATION.md](ADVANCED-VERIFICATION.md) dokumentálja. A forrás publikálása nem jelent élő szolgáltatás telepítését.

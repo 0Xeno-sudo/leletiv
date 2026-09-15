@@ -6,7 +6,7 @@ const service='http://127.0.0.1:8789';
 type Candidate={id:number;score:number;centerRasMm:number[];boxRasMm:number[][]};
 type Report={candidates:Candidate[];elapsedSeconds:number;[key:string]:unknown};
 type Job={id:string;kind:string;profile:string;status:string;stage:string;progress:number;error:string|null;report:Report|null};
-async function request<T>(path:string,init?:RequestInit):Promise<T>{const r=await fetch(service+path,{...init,headers:{'X-NeuroFlow-Research':'1',...init?.headers},signal:AbortSignal.timeout(30000)});if(!r.ok){const b=await r.json().catch(()=>({}));throw new Error(b&&typeof b==='object'&&'detail' in b&&typeof b.detail==='string'?b.detail:'A helyi képfeldolgozó nem érhető el.');}return r.json();}
+async function request<T>(path:string,init?:RequestInit):Promise<T>{const r=await fetch(service+path,{...init,headers:{'X-Leletiv-Research':'1',...init?.headers},signal:AbortSignal.timeout(30000)});if(!r.ok){const b=await r.json().catch(()=>({}));throw new Error(b&&typeof b==='object'&&'detail' in b&&typeof b.detail==='string'?b.detail:'A helyi képfeldolgozó nem érhető el.');}return r.json();}
 export function LungAssistant({disabled,active,onResult,onLocate}:{disabled:boolean;active:boolean;onResult:(source:File,boxes:File)=>Promise<void>;onLocate:(point:number[])=>void}){
  const [file,setFile]=useState<File|null>(null),[confirmed,setConfirmed]=useState(false),[ready,setReady]=useState(false),[job,setJob]=useState<Job|null>(null),[sending,setSending]=useState(false),[error,setError]=useState(''),[loaded,setLoaded]=useState(false),[reviews,setReviews]=useState<Record<number,string>>({});
  const busy=sending||job?.status==='queued'||job?.status==='running';

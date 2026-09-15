@@ -1,6 +1,6 @@
 # Third-party components and optional assets
 
-Original NeuroFlow OS code is Apache-2.0 licensed. That licence does **not** replace the terms of dependencies, model weights, fonts or data. Copyright remains with each component's respective authors. No upstream supplier's endorsement or warranty of this integration is claimed.
+Original Leletív code is Apache-2.0 licensed. That licence does **not** replace the terms of dependencies, model weights, fonts or data. Copyright remains with each component's respective authors. No upstream supplier's endorsement or warranty of this integration is claimed.
 
 This repository distributes source and documentation. It does not vendor node_modules, a Python environment, font binaries, model weights or medical images. Package installation retrieves dependencies separately. Their original licence texts, copyright notices and applicable NOTICE files remain authoritative.
 

@@ -9,9 +9,9 @@ import nibabel as nib
 import numpy as np
 from engine import make_phantom, MODEL_SHA256, file_hash
 
-with tempfile.TemporaryDirectory(prefix='neuroflow-proof-') as directory, httpx.Client(base_url='http://127.0.0.1:8789', trust_env=False, timeout=30) as client:
+with tempfile.TemporaryDirectory(prefix='leletiv-proof-') as directory, httpx.Client(base_url='http://127.0.0.1:8789', trust_env=False, timeout=30) as client:
     paths = make_phantom(directory)
-    response = client.post('/jobs', headers={'X-NeuroFlow-Research': '1'}, data={'prepared': 'yes'}, files={name: (path.name, path.read_bytes(), 'application/octet-stream') for name, path in paths.items()})
+    response = client.post('/jobs', headers={'X-Leletiv-Research': '1'}, data={'prepared': 'yes'}, files={name: (path.name, path.read_bytes(), 'application/octet-stream') for name, path in paths.items()})
     response.raise_for_status()
     job_id = response.json()['id']
     print('Submitted official-window inference through multipart API:', job_id, flush=True)
@@ -37,6 +37,6 @@ with tempfile.TemporaryDirectory(prefix='neuroflow-proof-') as directory, httpx.
     assert file_hash(mask_path) == report['maskSha256']
     assert client.get(f'/jobs/{job_id}/source').content == paths['t1c'].read_bytes()
     print(json.dumps({'status': 'passed', 'seconds': report['elapsedSeconds'], 'window': report['window'], 'outputShape': mask.shape, 'labels': report['regions'], 'modelChecksumVerified': True, 'originalAffinePreserved': True}, indent=2), flush=True)
-    assert client.delete(f'/jobs/{job_id}', headers={'X-NeuroFlow-Research': '1'}).json()['status'] == 'cleared'
+    assert client.delete(f'/jobs/{job_id}', headers={'X-Leletiv-Research': '1'}).json()['status'] == 'cleared'
     assert client.get(f'/jobs/{job_id}').status_code == 404
     print('Ephemeral job cleanup verified.', flush=True)

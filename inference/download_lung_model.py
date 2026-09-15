@@ -8,7 +8,7 @@ if target.is_file() and hashlib.sha256(target.read_bytes()).hexdigest()==SHA256:
  print('Lung model already verified')
 else:
  target.parent.mkdir(exist_ok=True)
- request=urllib.request.Request(f'https://huggingface.co/MONAI/lung_nodule_ct_detection/resolve/{REVISION}/models/model.pt',headers={'User-Agent':'NeuroFlow-research'})
+ request=urllib.request.Request(f'https://huggingface.co/MONAI/lung_nodule_ct_detection/resolve/{REVISION}/models/model.pt',headers={'User-Agent':'Leletiv-research'})
  temp=target.with_suffix('.download')
  try:
   with urllib.request.urlopen(request,timeout=60) as response,temp.open('wb') as output:

@@ -20,7 +20,7 @@ for z in range(24):
     ds.PatientName, ds.PatientID = 'SYNTHETIC^PHANTOM', 'NOT-A-PATIENT'
     ds.PatientBirthDate = ''
     ds.StudyDate, ds.StudyTime = '20260914', '000000'
-    ds.SeriesDescription, ds.ProtocolName = 'Geometric phantom', 'NeuroFlow smoke test'
+    ds.SeriesDescription, ds.ProtocolName = 'Geometric phantom', 'Leletiv smoke test'
     ds.Modality, ds.Manufacturer = 'MR', 'SYNTHETIC'
     ds.SeriesNumber, ds.InstanceNumber = 1, z + 1
     ds.ImageType = ['ORIGINAL', 'PRIMARY', 'OTHER']

@@ -3,9 +3,9 @@ import hashlib,tempfile,time
 from pathlib import Path
 import httpx,nibabel as nib,numpy as np
 from lung_engine import make_lung_phantom
-with tempfile.TemporaryDirectory(prefix='neuroflow-lung-http-') as folder:
+with tempfile.TemporaryDirectory(prefix='leletiv-lung-http-') as folder:
     source=make_lung_phantom(folder)['ct'];original=source.read_bytes()
-    with httpx.Client(base_url='http://127.0.0.1:8789',headers={'X-NeuroFlow-Research':'1'},timeout=30) as client:
+    with httpx.Client(base_url='http://127.0.0.1:8789',headers={'X-Leletiv-Research':'1'},timeout=30) as client:
         response=client.post('/lung/jobs',data={'prepared':'yes'},files={'ct':('synthetic-ct.nii.gz',original,'application/octet-stream')});response.raise_for_status();job=response.json()
         try:
             deadline=time.monotonic()+120

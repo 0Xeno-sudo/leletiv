@@ -1,6 +1,6 @@
 # Biztonsági határok
 
-A NeuroFlow OS kutatási demonstráció, kizárólag szintetikus adatokhoz. Nincs felhasználó-hitelesítés, szerepkörös jogosultságkezelés vagy hitelesített aláírás. Az API-t és az inferenciakiszolgálót ne tegye nyilvánossá; a loopback-címhez kötés nem jogosultságkezelés. A felhasználó által kiválasztott felelős nem igazolt személyazonosság.
+A Leletív kutatási demonstráció, kizárólag szintetikus adatokhoz. Nincs felhasználó-hitelesítés, szerepkörös jogosultságkezelés vagy hitelesített aláírás. Az API-t és az inferenciakiszolgálót ne tegye nyilvánossá; a loopback-címhez kötés nem jogosultságkezelés. A felhasználó által kiválasztott felelős nem igazolt személyazonosság.
 
 A forráskód publikálható; ez nem teszi az alkalmazást alkalmasnak valós betegadatok tárolására. A DICOM-konverzió és az archív feltöltés nem garantált anonimizálási eljárás. A böngészős pontjelölők helyi tárolóban maradhatnak. Az archívum D1/R2 állapota megmarad, az AI-futások ideiglenes állományai a szolgáltatás életciklusához kötöttek.
 

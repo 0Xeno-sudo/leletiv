@@ -32,3 +32,6 @@ uploads/
 data/
 
 !/inference/requirements-advanced.txt
+
+# Reviewed documentation screenshots only.
+!/docs/screenshots/*.jpg

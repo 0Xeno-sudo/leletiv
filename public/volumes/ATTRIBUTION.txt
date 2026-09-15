@@ -42,6 +42,6 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-The optional red ellipsoid in NeuroFlow is generated separately in code.
+The optional red ellipsoid in Leletiv is generated separately in code.
 It is an artificial region for testing label overlays, not an abnormality
 present in this atlas and not a tumour segmentation.

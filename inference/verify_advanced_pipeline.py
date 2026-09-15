@@ -6,7 +6,7 @@ from advanced_demo import make_demo
 
 def main():
     output=[]
-    with httpx.Client(base_url='http://127.0.0.1:8789',trust_env=False,timeout=60,headers={'X-NeuroFlow-Research':'1','Origin':'http://127.0.0.1:5173'}) as client:
+    with httpx.Client(base_url='http://127.0.0.1:8789',trust_env=False,timeout=60,headers={'X-Leletiv-Research':'1','Origin':'http://127.0.0.1:5173'}) as client:
         assert client.get('/advanced/capabilities').is_success
         for kind in ['longitudinal','body','pet','pathology','mri']:
             with tempfile.TemporaryDirectory(prefix='leletiv-http-check-') as folder:

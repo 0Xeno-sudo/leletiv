@@ -1,4 +1,4 @@
-export const STACK_DESCRIPTION = 'NeuroFlow image stack; orientation unknown';
+export const STACK_DESCRIPTION = 'image stack; orientation unknown';
 export const MAX_STACK_VOXELS = 32_000_000;
 export type StackSettings = { spacing: [number, number, number]; calibrated: boolean; invert: boolean };
 

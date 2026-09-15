@@ -2,12 +2,12 @@ import {useSyncExternalStore} from 'react';
 import {hungarian} from './translations.hu';
 export type Language='hu'|'en';
 let language:Language='hu';
-try{language=localStorage.getItem('neuroflow.language')==='en'?'en':'hu';}catch{/* Storage can be unavailable in private contexts. */}
+try{language=localStorage.getItem('leletiv.language')==='en'?'en':'hu';}catch{/* Storage can be unavailable in private contexts. */}
 const listeners=new Set<()=>void>();
 const subscribe=(fn:()=>void)=>{listeners.add(fn);return()=>{listeners.delete(fn);};};
 export const getLanguage=()=>language;
 export const locale=()=>language==='hu'?'hu-HU':'en-GB';
-export function setLanguage(next:Language){language=next;try{localStorage.setItem('neuroflow.language',next);}catch{};if(typeof document!=='undefined'){document.documentElement.lang=next;document.title=next==='hu'?'Áttekintés':'Overview';}listeners.forEach(fn=>fn());}
+export function setLanguage(next:Language){language=next;try{localStorage.setItem('leletiv.language',next);}catch{};if(typeof document!=='undefined'){document.documentElement.lang=next;document.title=next==='hu'?'Áttekintés':'Overview';}listeners.forEach(fn=>fn());}
 export function useLanguage(){return useSyncExternalStore(subscribe,getLanguage,()=> 'hu' as Language);}
 const entries=Object.entries(hungarian).sort((a,b)=>b[0].length-a[0].length);
 const escape=(s:string)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');

@@ -89,7 +89,7 @@ def client(tmp_path,monkeypatch):
         if not advanced_api.signals:break
         time.sleep(.02)
 
-HEADERS={'X-NeuroFlow-Research':'1','Origin':'http://127.0.0.1:5173'}
+HEADERS={'X-Leletiv-Research':'1','Origin':'http://127.0.0.1:5173'}
 def wait_job(client,job_id):
     for _ in range(150):
         result=client.get('/advanced/jobs/'+job_id).json()

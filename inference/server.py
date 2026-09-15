@@ -14,7 +14,7 @@ from engine import Engine, InputError, Cancelled, CHANNELS, MODEL_PATH, MODEL_ID
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 ORIGINS = ['http://127.0.0.1:5173', 'http://localhost:5173']
-app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=['GET', 'POST', 'DELETE'], allow_headers=['Content-Type', 'X-NeuroFlow-Research'])
+app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=['GET', 'POST', 'DELETE'], allow_headers=['Content-Type', 'X-Leletiv-Research'])
 from lung_engine import LungEngine, MODEL_PATH as LUNG_PATH, make_lung_phantom
 engine = Engine()
 lung_engine = LungEngine()
@@ -32,7 +32,7 @@ async def boundary(request: Request, call_next):
     if origin and origin not in ORIGINS:
         return JSONResponse({'detail': 'Origin not allowed.'}, status_code=403)
     if request.method in ('POST', 'DELETE'):
-        if request.headers.get('x-neuroflow-research') != '1':
+        if request.headers.get('x-leletiv-research') != '1':
             return JSONResponse({'detail': 'Research request header required.'}, status_code=403)
         if request.method == 'POST':
             try:
@@ -82,7 +82,7 @@ def create_job(profile,kind="brats"):
     if len(jobs) >= 5:
         active.release()
         raise HTTPException(409, 'Clear an existing job before starting another.')
-    job = {'kind':kind, 'id': str(uuid.uuid4()), 'status': 'queued', 'progress': 0, 'stage': 'Preparing local job', 'profile': profile, 'error': None, 'report': None, 'temp': tempfile.TemporaryDirectory(prefix='neuroflow-inference-'), 'cancel': threading.Event(), 'updated': time.time()}
+    job = {'kind':kind, 'id': str(uuid.uuid4()), 'status': 'queued', 'progress': 0, 'stage': 'Preparing local job', 'profile': profile, 'error': None, 'report': None, 'temp': tempfile.TemporaryDirectory(prefix='leletiv-inference-'), 'cancel': threading.Event(), 'updated': time.time()}
     with gate:
         jobs[job['id']] = job
     return job

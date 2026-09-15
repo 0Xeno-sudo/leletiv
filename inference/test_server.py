@@ -26,13 +26,13 @@ def test_health_and_cors():
 
 
 def test_upload_rejects_unbounded_body():
-    response = client.post('/jobs', headers={'X-NeuroFlow-Research': '1', 'Content-Length': str(261 * 1024 * 1024)})
+    response = client.post('/jobs', headers={'X-Leletiv-Research': '1', 'Content-Length': str(261 * 1024 * 1024)})
     assert response.status_code == 413
 
 
 def test_unknown_result_and_missing_sequences():
     assert client.get('/jobs/not-a-job').status_code == 404
-    response = client.post('/jobs', headers={'X-NeuroFlow-Research': '1'}, data={'prepared': 'yes'})
+    response = client.post('/jobs', headers={'X-Leletiv-Research': '1'}, data={'prepared': 'yes'})
     assert response.status_code in (400, 503)
 
 
@@ -43,13 +43,13 @@ def test_single_job_cancellation_and_cleanup(monkeypatch):
             raise Cancelled()
         raise AssertionError('Cancellation was not delivered')
     monkeypatch.setattr(server.engine, 'infer', wait_for_cancel)
-    response = client.post('/smoke', headers={'X-NeuroFlow-Research': '1'})
+    response = client.post('/smoke', headers={'X-Leletiv-Research': '1'})
     if response.status_code == 503:
         return  # Fresh checkouts can run non-model tests before downloading weights.
     assert response.status_code == 202
     job_id = response.json()['id']
-    assert client.post('/smoke', headers={'X-NeuroFlow-Research': '1'}).status_code == 409
-    assert client.delete(f'/jobs/{job_id}', headers={'X-NeuroFlow-Research': '1'}).json()['status'] == 'cancelling'
+    assert client.post('/smoke', headers={'X-Leletiv-Research': '1'}).status_code == 409
+    assert client.delete(f'/jobs/{job_id}', headers={'X-Leletiv-Research': '1'}).json()['status'] == 'cancelling'
     for _ in range(50):
         state = client.get(f'/jobs/{job_id}').json()
         if state['status'] == 'cancelled':
@@ -57,5 +57,5 @@ def test_single_job_cancellation_and_cleanup(monkeypatch):
         time.sleep(.01)
     assert state['status'] == 'cancelled'
     assert client.get(f'/jobs/{job_id}/mask').status_code == 409
-    assert client.delete(f'/jobs/{job_id}', headers={'X-NeuroFlow-Research': '1'}).json()['status'] == 'cleared'
+    assert client.delete(f'/jobs/{job_id}', headers={'X-Leletiv-Research': '1'}).json()['status'] == 'cleared'
     assert client.get(f'/jobs/{job_id}').status_code == 404

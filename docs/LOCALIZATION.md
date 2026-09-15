@@ -1,6 +1,6 @@
 # Hungarian and English interface
 
-Hungarian is the initial default. The header HU/EN control updates all mounted sections without remounting the viewer and stores the preference as `neuroflow.language` in local storage. A reload retains it. Dates and volume measurements use the selected locale; document language and browser title follow it.
+Hungarian is the initial default. The header HU/EN control updates all mounted sections without remounting the viewer and stores the preference as `leletiv.language` in local storage. A reload retains it. Dates and volume measurements use the selected locale; document language and browser title follow it.
 
 `src/lib/translations.hu.ts` contains authored Hungarian interface and demonstration-data translations. `src/lib/i18n.ts` supplies reactive language selection, display translation and exact-match demonstration-record translation. IDs, API status codes, stored data, selection values and event handlers are not translated. User-authored clinical narratives are not automatically translated; recognized seeded demonstration copy has curated Hungarian versions.
 

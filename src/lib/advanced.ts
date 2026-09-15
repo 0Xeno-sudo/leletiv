@@ -20,7 +20,7 @@ export type Report={kind:Workflow;method:string;limitations:string[];artifacts:A
 export type Job={id:string;title?:string;caseId?:string;kind:Workflow;status:string;stage:string;progress:number;created:number;version:number;options?:Record<string,unknown>;report:Report|null;review:Review|null;error?:string};
 export type Capabilities={simpleitk:boolean;totalSegmentator:boolean;bodyWeights:boolean;compositionWeights:boolean;histology:boolean};
 export async function advanced<T>(path:string,init?:RequestInit):Promise<T>{
- const headers=new Headers(init?.headers);if(init?.method&&init.method!=='GET')headers.set('X-NeuroFlow-Research','1');
+ const headers=new Headers(init?.headers);if(init?.method&&init.method!=='GET')headers.set('X-Leletiv-Research','1');
  if(init?.body&&!(init.body instanceof FormData))headers.set('Content-Type','application/json');
  const response=await fetch(advancedRoot+path,{...init,headers,signal:init?.signal??AbortSignal.timeout(60000)});
  const value=await response.json() as T & {detail?:string};if(!response.ok)throw new Error(typeof value.detail==='string'?medicalLabel(value.detail):'A helyi feldolgozó nem fogadta el a kérést.');return value;

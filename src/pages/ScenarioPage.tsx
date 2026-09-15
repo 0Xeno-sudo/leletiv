@@ -35,8 +35,8 @@ export default function ScenarioPage() {
   const result = useMemo(()=>simulate(cohort,input),[cohort,input]);
   const baseline = useMemo(()=>simulate(cohort,{...baselineInput,cohortCopies:input.cohortCopies}),[cohort,input.cohortCopies]);
   const selected = result.visits.find(v=>v.id===selection);
-  const exportReport = () => downloadText('neuroflow-capacity-scenario.csv',csv([
-    ['NeuroFlow capacity model',modelVersion],['Source',snapshot?.name??'Current synthetic pathways'],['Planning horizon (min)',horizon],
+  const exportReport = () => downloadText('leletiv-capacity-scenario.csv',csv([
+    ['Leletív capacity model',modelVersion],['Source',snapshot?.name??'Current synthetic pathways'],['Planning horizon (min)',horizon],
     ...controls.map(c=>[c.label,input[c.field]]),['Completed',result.completed],['Beyond shift',result.backlog],['Mean queue (min)',result.meanWait],
     ['Visit','Case','Stage','Start (min)','Finish (min)','Queue (min)','Resource slot'],
     ...result.visits.flatMap(v=>v.segments.map(s=>[v.label,v.caseId,stages[s.stage],s.start,s.end,s.wait,s.slot+1]))

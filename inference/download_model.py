@@ -11,7 +11,7 @@ if MODEL_PATH.is_file():
 else:
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
     url = f'https://huggingface.co/MONAI/brats_mri_segmentation/resolve/{MODEL_REVISION}/models/model.pt'
-    with tempfile.TemporaryDirectory(prefix='neuroflow-model-') as directory:
+    with tempfile.TemporaryDirectory(prefix='leletiv-model-') as directory:
         target = Path(directory) / 'weights.pt'
         urllib.request.urlretrieve(url, target)
         if file_hash(target) != MODEL_SHA256:

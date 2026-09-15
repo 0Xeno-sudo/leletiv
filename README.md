@@ -2,9 +2,30 @@
 
 **Magyar nyelvű neuro-onkológiai munkatér, 3D képmegjelenítéssel, forráshoz kötött leletáttekintéssel és helyben futtatható képfeldolgozó kutatási modellekkel.**
 
-A Leletív (korábbi nevén NeuroFlow OS) egy nyílt forrású, fejleszthető kutatási és demonstrációs alkalmazás. Egy felületen kapcsolja össze az eset áttekintését, az onkoteam-döntést, a következő teendőket, a várt vizsgálatokat, a dokumentumokat és a képi megfigyeléseket.
+A Leletív egy nyílt forrású, fejleszthető kutatási és demonstrációs alkalmazás. Egy felületen kapcsolja össze az eset áttekintését, az onkoteam-döntést, a következő teendőket, a várt vizsgálatokat, a dokumentumokat és a képi megfigyeléseket.
 
 > **Állapot: kutatási prototípus.** Nem klinikailag validált orvostechnikai eszköz, nem ad hitelesített diagnózist és nem helyettesít radiológiai vagy onkológiai véleményt. Kizárólag szintetikus adatokkal történő kipróbálásra szánt. Nincs beépített felhasználó-hitelesítés vagy jogosultságkezelés; az API-t ne tegye nyilvánosan elérhetővé.
+
+## Képek a működő alkalmazásból
+
+### Forgatható 3D agyi nézet
+
+![Leletív 3D agyi megjelenítő: MNI152 atlasz, szimulált piros régió és térfogatmérés](docs/screenshots/brain-3d.jpg)
+
+Az agyi atlasz forgatható térfogati nézete, rávetített területkijelöléssel és mérési panellel. **A piros régió mesterséges szemléltetés, nem felismert daganat.**
+
+<table>
+  <tr>
+    <td width="50%"><strong>Metszetek és 3D együtt</strong><br><a href="docs/screenshots/brain-slices.jpg"><img src="docs/screenshots/brain-slices.jpg" alt="Axiális, koronális és szagittális agyi metszetek a 3D nézettel együtt" width="100%"></a><br>A térben összetartozó nézeteken ugyanaz a jelölt régió ellenőrizhető.</td>
+    <td width="50%"><strong>PET/CT aktivitásrégiók</strong><br><a href="docs/screenshots/pet-ct.jpg"><img src="docs/screenshots/pet-ct.jpg" alt="Szintetikus PET/CT próbakép két színes aktivitásrégióval három síkban" width="100%"></a><br>Kijelölt aktivitásrégiók megjelenítése CT-alapképen, generált geometriai próbán.</td>
+  </tr>
+  <tr>
+    <td><strong>Digitális szövettan</strong><br><a href="docs/screenshots/histology.jpg"><img src="docs/screenshots/histology.jpg" alt="Mesterséges sejtmagok, DAB-pozitivitás és ellenőrzött sejtszámok a Leletívben" width="100%"></a><br>Sejtmagjelölések, javítható besorolás és pozitivitási összesítés mesterséges mintán.</td>
+    <td><strong>Végigkövethető demóbetegút</strong><br><a href="docs/screenshots/case-pathway.jpg"><img src="docs/screenshots/case-pathway.jpg" alt="Kitalált bemutatóeset munkadiagnózissal, felelőssel és következő mérföldkővel" width="100%"></a><br>Esetösszefoglaló, munkadiagnózis, felelős és következő lépés egy helyen.</td>
+  </tr>
+</table>
+
+A képernyőképek a ténylegesen futó alkalmazásból készültek, 2026. szeptember 15-én. A betegút és a kvantitatív példák kitalált adatokkal működnek. Az agyi képek MNI152/ICBM populációs atlaszt mutatnak, nem egy beteg felvételét. [Képek forrása és felhasználási feltételei](docs/screenshots/README.md). A képekre kattintva megnyitható a teljes méretű változat.
 
 ## Új kvantitatív munkatér
 
@@ -14,7 +35,7 @@ A Leletív (korábbi nevén NeuroFlow OS) egy nyílt forrású, fejleszthető ku
 
 ## Mit tartalmaz a nyilvános repó?
 
-Forráskódot, adatbázissémát, teszteket, modellletöltő kódot és dokumentációt. **Az alkalmazás üres munkatérrel indul:** nincsenek előre feltöltött esetek, betegrekordok, leletek, képfájlok, munkatársak vagy eseménynaplók. A helyi adattár, a korábbi munkatér állapota, az AI-modellsúlyok és a generált tesztképek nem részei a repónak. Az új indítás nem emel át korábbi telepítésből adatokat.
+Forráskódot, adatbázissémát, teszteket, modellletöltő kódot, dokumentációt és az itt látható öt bemutató-képernyőképet. **Az alkalmazás üres munkatérrel indul:** nincsenek előre feltöltött esetek, betegrekordok, leletek, képanyagok, munkatársak vagy eseménynaplók. A helyi adattár, a korábbi munkatér állapota, az AI-modellsúlyok és a feldolgozható tesztképanyagok nem részei a repónak. Az új indítás nem emel át korábbi telepítésből adatokat.
 
 A felület alapértelmezésben magyar, HU/EN nyelvváltóval. A legújabb összekapcsolt betegút- és képösszehasonlító modulok egyes szövegei jelenleg csak magyarul érhetők el. A megjelenés Switzer betűtípust, visszafogott színeket, áttekinthető kártyákat és nagyobb vezérlőket használ.
 
@@ -125,6 +146,8 @@ npm run dev
 ```
 
 Nyissa meg a **http://127.0.0.1:5173/** címet. Az indító automatikusan alkalmazza a helyi adatbázis-migrációkat. Az alapalkalmazáshoz nem kell Cloudflare-fiók vagy API-kulcs.
+
+**Meglévő telepítés frissítése:** az új telepítés helyi képtárának azonosítója `leletiv-imaging`. Korábbi képtár megtartásához az indító második argumentumában annak meglévő azonosítója adható meg: `npm run dev -- 5173 KORABBI_KEPTAR_AZONOSITO`. Az indító nem másolja és nem törli a képtárakat. A korábbi adatbázishoz az ahhoz tartozó képtárat kell használni, különben a régi képanyagok nem lesznek elérhetők. A kliens és a Python-szolgáltatás azonos kiadását használja; a helyi kérések fejléce `X-Leletiv-Research`.
 
 A teljes bemutatóhoz válassza a **Három demóbetegút betöltése** gombot. Saját szintetikus munkatér kialakításához:
 

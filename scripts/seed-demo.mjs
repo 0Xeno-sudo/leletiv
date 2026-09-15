@@ -9,7 +9,7 @@ for(const [kind,caseId] of examples){
  const jobs=await request(advanced+'/jobs');
  const existing=jobs.find(j=>j.kind===kind&&j.caseId===caseId&&j.status==='completed');
  if(existing){console.log(kind+': meglévő demóeredmény megőrizve.');continue;}
- let job=await request(advanced+'/demo/'+kind,{method:'POST',headers:{'Content-Type':'application/json','X-NeuroFlow-Research':'1'},body:JSON.stringify({caseId})});
+ let job=await request(advanced+'/demo/'+kind,{method:'POST',headers:{'Content-Type':'application/json','X-Leletiv-Research':'1'},body:JSON.stringify({caseId})});
  for(let n=0;n<120&&['queued','running'].includes(job.status);n++){await new Promise(r=>setTimeout(r,500));job=await request(advanced+'/jobs/'+job.id);}
  if(job.status!=='completed')throw new Error(kind+': '+(job.error||job.status));
  console.log(kind+': '+job.id+' · '+caseId+' · elkészült');

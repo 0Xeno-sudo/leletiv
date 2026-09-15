@@ -1,6 +1,6 @@
 # Összekapcsolt betegút és képi kutatási eszközök
 
-2026. szeptember 15. – helyi NeuroFlow-prototípus, szintetikus bemutatóadatokkal.
+2026. szeptember 15. – helyi Leletiv-prototípus, szintetikus bemutatóadatokkal.
 
 ## A megvalósított hat funkció
 

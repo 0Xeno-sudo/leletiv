@@ -81,7 +81,7 @@ def labels_from_logits(logits):
 
 def provenance_for(paths, profile):
     return {
-        'schema': 'neuroflow.segmentation.v2', 'model': MODEL_ID,
+        'schema': 'leletiv.segmentation.v2', 'model': MODEL_ID,
         'modelRevision': MODEL_REVISION, 'modelSha256': MODEL_SHA256,
         'channelOrder': list(CHANNELS), 'profile': profile,
         'inputs': {key: {'sha256': file_hash(paths[key])} for key in CHANNELS},
@@ -141,7 +141,7 @@ class Engine:
         mask_header = header.copy()
         mask_header.set_data_dtype(np.uint8)
         mask_header.set_slope_inter(1, 0)
-        mask_header['descrip'] = b'NeuroFlow research prediction - NOT CLINICALLY VALIDATED'
+        mask_header['descrip'] = b'Leletiv research prediction - NOT CLINICALLY VALIDATED'
         mask = nib.Nifti1Image(labels, affine, mask_header)
         nib.save(mask, Path(output_dir) / 'mask.nii.gz')
         report = provenance_for(paths, profile)
