@@ -1,6 +1,6 @@
 import {localize as l,recordText,useLanguage} from '../lib/i18n';
 import { Brain, DownloadSimple, HardDrives, Info, Plus, Scan, UploadSimple } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
+import { Link,useSearchParams } from "react-router-dom";
 import { lazy, Suspense, type FormEvent, useState } from "react";
 import { useAppData } from '../lib/workspace';
 import { Modal, PageHeader, StatusBadge, formatDate } from "../components/ui";
@@ -14,8 +14,10 @@ export default function ImagingPage() {
   const [selectedStudy, setSelectedStudy] = useState("study-01");
   const [saving, setSaving] = useState(false);
   const [failure,setFailure]=useState("");
+  const [params]=useSearchParams();const caseFilter=params.get('case');
   if (!data) return null;
-  const study = data.studies.find((item) => item.id === selectedStudy) ?? data.studies[0];
+  const visibleStudies=data.studies.filter(s=>!caseFilter||s.case_id===caseFilter);
+  const study = visibleStudies.find((item) => item.id === selectedStudy) ?? visibleStudies[0];
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaving(true);
@@ -24,8 +26,8 @@ export default function ImagingPage() {
   return (
     <>
       <PageHeader eyebrow={l("Imaging operations")} title={l("Imaging workspace")} description={l("Track acquisition, quality checks, transfers, and review readiness in one place.")} actions={<button className="button primary" onClick={() => setUploadOpen(true)}><UploadSimple size={17} />{l(" Upload study")}</button>} />
-      <div className="imaging-layout">
-        <section className="panel study-browser"><header className="panel-header"><div><h2>{l("Study archive")}</h2><p>{l(data.studies.length)}{l(" linked studies")}</p></div><HardDrives size={19} /></header><div className="study-list">{l(data.studies.map((item) => <button key={item.id} className={item.id === study?.id ? "active" : ""} onClick={() => setSelectedStudy(item.id)}><span className="modality-box">{l(item.modality)}</span><span><strong>{recordText(item.patient_name)}</strong><small>{recordText(item.description)}</small><em>{l(formatDate(item.study_date))}{l(" · ")}{l(item.series_count)}{l(" series")}</em></span><StatusBadge status={item.status} /></button>))}</div></section>
+      {caseFilter&&<Link className="text-button" to="/imaging">Teljes képalkotási archívum →</Link>}<div className="imaging-layout">
+        <section className="panel study-browser"><header className="panel-header"><div><h2>{l("Study archive")}</h2><p>{l(visibleStudies.length)}{l(" linked studies")}</p></div><HardDrives size={19} /></header><div className="study-list">{l(visibleStudies.map((item) => <button key={item.id} className={item.id === study?.id ? "active" : ""} onClick={() => setSelectedStudy(item.id)}><span className="modality-box">{l(item.modality)}</span><span><strong>{recordText(item.patient_name)}</strong><small>{recordText(item.description)}</small><em>{l(formatDate(item.study_date))}{l(" · ")}{l(item.series_count)}{l(" series")}</em></span><StatusBadge status={item.status} /></button>))}</div></section>
         <section className="imaging-main">
           <div className="scan-context-card archive-volume-link"><Brain size={36}/><span className="section-kicker">{l("Volumetric review")}</span><h2>{l("Real voxels. Clear spatial context.")}</h2><p>{l("Review a NIfTI scan in linked slice views and 3D. Import a matching region mask to inspect its shape and volume.")}</p><Link className="button primary" to={study?.object_key&&/\.nii(\.gz)?$/i.test(study.file_name||'')?`/volume-lab?study=${study.id}`:"/volume-lab"}>{l("Open 3D scan lab")}</Link><small>{study?.object_key&&/\.nii(\.gz)?$/i.test(study.file_name||'')?"A kiválasztott felvétel közvetlenül megnyílik; az eredmények visszamenthetők az esethez.":"NIfTI-képanyag választható a 3D munkatérben. DICOM-sorozatot előbb konvertálj."}</small></div>
           <div className="imaging-info-bar"><div><span className="modality-box large">{l(study?.modality)}</span><span><small>{l("Selected study")}</small><strong>{recordText(study?.patient_name)}{l(" · ")}{recordText(study?.description)}</strong></span></div><div><span><small>{l("Series")}</small><strong>{l(study?.series_count)}</strong></span><span><small>{l("Study date")}</small><strong>{l(study && formatDate(study.study_date))}</strong></span><span><small>{l("Stored file")}</small><strong>{l(formatFileSize(study?.file_size ?? null))}</strong></span></div>{l(study?.object_key && <a className="button secondary" href={`/api/studies/${study.id}/download`}><DownloadSimple size={17} />{l(" Download")}</a>)}</div>

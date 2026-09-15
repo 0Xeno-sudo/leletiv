@@ -51,7 +51,7 @@ export const reviewHungarian: Record<string, string> = {
     "Csatoljon egy másik ellenőrzött eredményt ugyanebből az esetből.",
   "The document text is too large.": "A dokumentum szövege túl hosszú.",
   "Model output is non-finite or malformed. No mask was produced.":
-    "A modell kimenete nem véges vagy hibás alakú. Nem készült maszk.",
+    "A modell eredménye hibás értékeket vagy nem megfelelő képméretet tartalmaz. Nem készült területkijelölés.",
   "MRI normalization produced invalid values.":
     "Az MR-normalizálás érvénytelen értékeket eredményezett.",
   Pathology: "Patológia",

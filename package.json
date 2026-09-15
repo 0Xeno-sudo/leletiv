@@ -15,7 +15,10 @@
     "inference:model": ".venv-inference/bin/python inference/download_model.py",
     "inference:lung-model": ".venv-inference/bin/python inference/download_lung_model.py",
     "inference:test": ".venv-inference/bin/python -m pytest inference -q",
-    "demo:images": ".venv-inference/bin/python scripts/prepare-demo-images.py"
+    "demo:images": ".venv-inference/bin/python scripts/prepare-demo-images.py",
+    "advanced:setup": "PIP_CONFIG_FILE=/dev/null .venv-inference/bin/python -m pip install -r inference/requirements-advanced.txt",
+    "advanced:body-model": ".venv-inference/bin/python inference/download_advanced_models.py",
+    "demo:seed": "node scripts/seed-demo.mjs"
   },
   "dependencies": {
     "@niivue/dcm2niix": "1.3.20260724",

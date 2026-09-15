@@ -30,3 +30,5 @@ logs/
 output/
 uploads/
 data/
+
+!/inference/requirements-advanced.txt

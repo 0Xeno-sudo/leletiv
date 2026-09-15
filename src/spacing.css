@@ -1,0 +1,89 @@
+/* Space between controls is independent of label wrapping and button width. */
+.care-actions,
+.advanced-actions,
+.image-stack-actions {
+  column-gap: 14px;
+  row-gap: 14px;
+}
+:is(.care-actions, .advanced-actions, .image-stack-actions) > :is(.button, .text-button) {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.comparison-controls {
+  display: grid;
+  gap: 26px;
+}
+.comparison-controls > h2,
+.comparison-controls > p {
+  margin: 0;
+}
+.comparison-checks {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+.comparison-checks .stack-check {
+  margin: 0;
+  gap: 14px;
+  line-height: 1.65;
+}
+.comparison-controls .comparison-result {
+  padding: 0;
+}
+.comparison-result small {
+  margin-top: 10px;
+}
+.comparison-actions {
+  align-items: stretch;
+  margin: 0;
+}
+.comparison-actions .button {
+  padding: 13px 20px;
+  min-height: 48px;
+}
+
+/* Ungrouped confirmation rows in the older imaging panels. */
+.care-panel > .stack-check + .stack-check {
+  margin-top: 18px;
+}
+.care-panel > .stack-check + :is(.button, .care-actions) {
+  margin-top: 24px;
+}
+.pipeline-step .research-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.65;
+  margin: 4px 0 8px;
+}
+.pipeline-step .research-confirm input {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 3px 0 0;
+}
+.pipeline-step .research-confirm span {
+  min-width: 0;
+}
+.pipeline-actions + small {
+  display: block;
+  margin-top: 0;
+}
+.pipeline-step > .text-button {
+  display: block;
+  margin-top: 4px;
+}
+.advanced-submit > .button {
+  margin-top: 10px;
+}
+
+@media (max-width: 700px) {
+  .comparison-controls { gap: 24px; }
+  .comparison-actions { flex-direction: column; }
+  .comparison-actions .button { width: 100%; }
+  .comparison-checks .stack-check { gap: 12px; }
+}

@@ -83,3 +83,7 @@ POST `/lung/jobs` accepts one `ct` NIfTI file and `prepared=yes`; `/lung/smoke` 
 The local development runtime stores new D1/R2 data under `.wrangler/state/connected-care`. Startup applies schema migrations to an empty database. No previous workspace, record or file is imported.
 
 With both local services running, `.venv-inference/bin/python inference/verify_lung_pipeline.py` checks an actual multipart CT upload, pretrained inference, exact source bytes/checksum and source-aligned box output, then clears only its own temporary test job.
+
+## Leletív quantitative workspace
+
+The five new persistent workflows use `data/advanced/`. Setup: `npm run advanced:setup` and `npm run advanced:body-model`. See [the full workflow guide](../docs/ADVANCED-WORKSPACE.md) and [additional component notices](../docs/ADVANCED-THIRD-PARTY.md). The source checkout contains no model weights or saved runs.

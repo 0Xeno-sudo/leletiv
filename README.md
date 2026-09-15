@@ -1,10 +1,16 @@
-# NeuroFlow OS
+# Leletív
 
 **Magyar nyelvű neuro-onkológiai munkatér, 3D képmegjelenítéssel, forráshoz kötött leletáttekintéssel és helyben futtatható képfeldolgozó kutatási modellekkel.**
 
-A NeuroFlow egy nyílt forrású, fejleszthető kutatási és demonstrációs alkalmazás. Egy felületen kapcsolja össze az eset áttekintését, az onkoteam-döntést, a következő teendőket, a várt vizsgálatokat, a dokumentumokat és a képi megfigyeléseket.
+A Leletív (korábbi nevén NeuroFlow OS) egy nyílt forrású, fejleszthető kutatási és demonstrációs alkalmazás. Egy felületen kapcsolja össze az eset áttekintését, az onkoteam-döntést, a következő teendőket, a várt vizsgálatokat, a dokumentumokat és a képi megfigyeléseket.
 
 > **Állapot: kutatási prototípus.** Nem klinikailag validált orvostechnikai eszköz, nem ad hitelesített diagnózist és nem helyettesít radiológiai vagy onkológiai véleményt. Kizárólag szintetikus adatokkal történő kipróbálásra szánt. Nincs beépített felhasználó-hitelesítés vagy jogosultságkezelés; az API-t ne tegye nyilvánosan elérhetővé.
+
+## Új kvantitatív munkatér
+
+Öt helyben futó, API-kulcs nélküli kutatási munkafolyamat került a felületre: elváltozáskövetés automatikus illesztéssel és RECIST-munkalappal; 3D szervtérkép és L3-testösszetétel; PET/CT fúzió és SUV/TLG-mérések; szövettani sejtmag-pozitivitás; diffúziós és perfúziós MR. Az eredmények javíthatók, ellenőrzési előzménnyel menthetők és PDF/JSON formában exportálhatók. A mintaadatok csak kifejezett indításkor, helyben generálódnak.
+
+[Részletes funkciók, bemenetek, telepítés és korlátok](docs/ADVANCED-WORKSPACE.md) · [További komponensek és modellek licencei](docs/ADVANCED-THIRD-PARTY.md).
 
 ## Mit tartalmaz a nyilvános repó?
 
@@ -13,6 +19,24 @@ Forráskódot, adatbázissémát, teszteket, modellletöltő kódot és dokument
 A felület alapértelmezésben magyar, HU/EN nyelvváltóval. A legújabb összekapcsolt betegút- és képösszehasonlító modulok egyes szövegei jelenleg csak magyarul érhetők el. A megjelenés Switzer betűtípust, visszafogott színeket, áttekinthető kártyákat és nagyobb vezérlőket használ.
 
 ## Funkciók oldalanként
+
+### Kvantitatív képi munkatér — `/advanced`
+
+Öt külön modul közös képi ellenőrzéssel, módosítható eredményekkel és mentett ellenőrzési előzményekkel:
+
+1. **Elváltozások követése:** kiinduló és legfeljebb négy kontrollvizsgálat térbeli illesztése, a kijelölt elváltozások párosítása és térfogatváltozása. Az orvos által ellenőrzött átmérőkkel RECIST 1.1 munkalap készíthető. A párosítás javítható; a rendszer nem választ terápiát, és a RECIST-munkalap nem helyettesíti az agyi gliómák RANO-értékelését.
+2. **3D szervtérkép és testösszetétel:** szervek automatikus körülhatárolása CT-n a helyi TotalSegmentator modellel; az L3 csigolya szintjében izom- és zsírszövetmérés a Stanford MIMI modellel. Mérhető keresztmetszeti terület, átlagos CT-denzitás és a testmagasságra normalizált vázizomindex. A szervek körülhatárolása nem általános daganatfelismerés.
+3. **PET/CT elemzés:** a kalibrált PET-aktivitás rávetítése a CT-re, SUVmean/SUVmax és régiótérfogat mérése. FDG-felvételen TLG is számolható; az összesítésbe a felhasználó által kijelölt régiók kerülnek. Az élettani halmozás elkülönítése szakértői ellenőrzést igényel.
+4. **Digitális szövettan:** sejtmagok felismerése és DAB-pozitivitás mérése a patológus által kijelölt képrészleten. A sejtek pozitív, negatív vagy kizárt besorolása javítható. Ez nem automatikus rákdiagnózis; a pozitív arány nem önmagában hitelesített Ki-67-index.
+5. **Multiparametrikus MR:** ADC-számítás DWI-sorozatból, DSC-alapú relatív perfúziós becslés és normál referenciaszövethez viszonyított rCBV. A térképek közösen megjeleníthetők, a kijelölt területek mérési adatai összehasonlíthatók. Nincs automatikus progresszió- vagy sugárnekrózis-diagnózis.
+
+A feldolgozások esethez kapcsolhatók. Korábbi feldolgozás képe átvehető új bemenetként; a kapcsolat és az ellenőrzési változat megmarad. A jelentés magyar szervneveket és módszerleírásokat használ, a mérési adatok változatlanul megőrződnek. **PDF:** a külön jelentésoldal a böngésző nyomtatási ablakából menthető. **JSON:** a részletes eredmények, paraméterek és ellenőrzési előzmények letölthetők.
+
+### Végigkövethető bemutatóbetegutak — minden oldalon
+
+Az üres alkalmazásban a **Három demóbetegút betöltése** gomb három, kizárólag kitalált esetet hoz létre: neuro-onkológiai kivizsgálást, szövettani leletre váró mellkasi esetet és neuro-onkológiai utánkövetést. Esetenként két szerkesztett lelet, forrásidézetek, mérések, négy feladat, három végrehajtási lépés, várt vizsgálat, utánkövetés és két generált 3D próbakép segíti a kipróbálást.
+
+A **Követett demóeset** választó és a **Következő lépés** gomb végigvezet az összetartozó oldalakon. A mentések megmaradnak, az ismételt demóbetöltés nem írja felül a korábbi módosításokat. A generált képek a működést szemléltetik; nem a szöveges leletekben leírt anatómia másolatai. [Részletes útmutató](docs/DEMO-BETEGUTAK.md).
 
 ### Áttekintés — `/`
 
@@ -24,7 +48,7 @@ Az aktív esetek, onkoteamre előkészített esetek, nyitott teendők és elakad
 
 ### Esetátadó összefoglaló — `/cases/:caseId/brief`
 
-Az adott esetből készülő, nyomtatható átadó dokumentum a következő ellátó vagy megbeszélés számára. **PDF-be menthető a böngésző nyomtatási párbeszédablakán keresztül.** A dokumentum a rögzített adatokat rendezi össze; nem automatikus orvosi szakvélemény. A közös oldalfejléc PDF / nyomtatás gombja a többi oldal böngészős nyomtatását is elindítja; az esetátadó külön nyomtatási elrendezést kapott.
+Az adott esetből készülő, nyomtatható átadó dokumentum a következő ellátó vagy megbeszélés számára. **PDF-be menthető a böngésző nyomtatási ablakán keresztül.** A dokumentum a rögzített adatokat rendezi össze; nem automatikus orvosi szakvélemény. A közös oldalfejléc PDF / nyomtatás gombja a többi oldal böngészős nyomtatását is elindítja; az esetátadó külön nyomtatási elrendezést kapott.
 
 ### Onkoteam — `/board`
 
@@ -43,11 +67,11 @@ Esethez kötött képalkotó vizsgálatok nyilvántartása és fájlok feltölt�
 ### 3D képi munkatér — `/volume-lab`
 
 - NIfTI-1 képtérfogatok megnyitása axiális, koronális és szagittális metszetekben, valamint forgatható 3D nézetben.
-- Kontraszt, maszkátlátszóság és térbeli metszősík beállítása.
+- Kontraszt, a kijelölés láthatósága és térbeli metszősík beállítása.
 - **JPG/PNG és a böngésző által dekódolható képszeletek sorozatából térfogati nézet készítése.** A szeletsorrend és a távolságok megadásával a létrehozott térfogat NIfTI-ként letölthető. Ez a képsorozat térbeli megjelenítése: nem állít helyre hiányzó anatómiát, nem igazolja a szeletek helyes illeszkedését, és nem automatikus agyszegmentálás.
 - DICOM-sorozatok helyi, böngészőben végzett NIfTI-konverziója a dcm2niix segítségével. A konverzió nem végez képi regisztrációt vagy koponyamentesítést.
 - Képhez rögzített térbeli pontjelölő, amely forgatáskor is ugyanarra a képi helyre mutat, és visszakereshető. Nem daganathatár.
-- Azonos térbeli geometriájú régiómaszk importálása; címkénkénti voxelszám és ismert fizikai kalibráció esetén térfogat számítása. CSV-méréslista és NIfTI-maszk exportálható.
+- Azonos térbeli geometriájú régiómaszk importálása; kijelölt területenkénti térbeli képpontszám és ismert fizikai kalibráció esetén térfogat számítása. CSV-méréslista és NIfTI-maszk exportálható.
 - Félautomatikus régiónövesztés egy kiválasztott pontból, intenzitástartomány és maximális sugár megadásával. Ez determinisztikus képfeldolgozás, nem AI-diagnózis.
 - Archív forráshoz kapcsolható maszk, régióazonosító, módszer, paraméterek és megjegyzés. Mentéskor a szerver ellenőrzi a forrás fájlazonosságát és a maszk geometriáját, újraszámolja a térfogatot. A forrás és a maszk később visszanyitható.
 
@@ -102,6 +126,8 @@ npm run dev
 
 Nyissa meg a **http://127.0.0.1:5173/** címet. Az indító automatikusan alkalmazza a helyi adatbázis-migrációkat. Az alapalkalmazáshoz nem kell Cloudflare-fiók vagy API-kulcs.
 
+A teljes bemutatóhoz válassza a **Három demóbetegút betöltése** gombot. Saját szintetikus munkatér kialakításához:
+
 1. A **Szakmai csapat** oldalon vegyen fel egy fiktív munkatársat.
 2. Az **Esetnyilvántartásban** hozzon létre egy szintetikus esetet.
 3. Rögzítsen hozzá teendőt vagy onkoteam-döntést, majd kövesse a **Döntéstől az eredményig** oldalon.
@@ -127,13 +153,31 @@ npm run dev:full
 
 A modellsúlyok nyilvános forrásból, rögzített verzióval és SHA-256-ellenőrzéssel tölthetők le. A futó modell a helyi **127.0.0.1:8789** címen érhető el. API-kulcs nem szükséges. A két indítót ne futtassa egyszerre ugyanazon a porton.
 
+### Az öt kvantitatív modul telepítése
+
+Az előző Python-környezetben:
+
+```bash
+npm run advanced:setup
+npm run advanced:body-model
+npm run dev:full
+```
+
+A testösszetételi és szervmodell külön letöltést igényel. Az elváltozáskövetés, a PET-mérések, a sejtmagok képfeldolgozása és az MR-számítások nem igényelnek fizetős API-t. A teljesen összekapcsolt bemutató előkészítéséhez, a futó alkalmazás mellett egy másik terminálban:
+
+```bash
+npm run demo:seed
+```
+
+A betegutak Python nélkül is betölthetők; a kvantitatív mintákhoz a helyi képfeldolgozónak futnia kell.
+
 ### Választható képi példák
 
 ```bash
 npm run demo:images
 ```
 
-A Python-környezet telepítése után ez helyben generál geometriai DICOM- és NIfTI-próbaképeket, továbbá letölti a hivatkozott MNI152 populációs agyatlaszt. Ezek nem betegfelvételek. A generált és letöltött képek Git által figyelmen kívül hagyott fájlok; a repóban csak az előállító kód és az atlasz [forrásmegjelölése](public/volumes/ATTRIBUTION.txt) szerepel. A demógombokhoz ez a külön lépés szükséges; a saját szintetikus fájlok megnyitásához nem.
+A Python-környezet telepítése után ez helyben generál geometriai DICOM- és NIfTI-próbaképeket, továbbá letölti a hivatkozott MNI152 populációs agyatlaszt. Ezek nem betegfelvételek. A generált és letöltött képek Git által figyelmen kívül hagyott fájlok; a repóban csak az előállító kód és az atlasz [forrásmegjelölése](public/volumes/ATTRIBUTION.txt) szerepel. Az atlaszgombhoz és az önálló képi példákhoz ez a külön lépés szükséges. A három kapcsolt demóbetegút képeit a demóbetöltés külön letöltés nélkül állítja elő.
 
 ## Ellenőrzés
 
@@ -144,6 +188,8 @@ npm run inference:test
 ```
 
 Az első parancs típusellenőrzést, TypeScript-teszteket és kliens/Worker buildet futtat. A második izolált, üres D1/R2 környezetből indulva ellenőrzi a fő API-műveleteket és az újranyitás utáni megőrzést. A Python-tesztekhez külön inferenciakörnyezet szükséges. Ezek szoftveres tesztek, nem klinikai validációk.
+
+A 2026. szeptember 15-i kiadási ellenőrzés eredményeit és határait a [működésellenőrzési jegyzőkönyv](docs/RELEASE-VERIFICATION.md) tartalmazza.
 
 ## Technikai felépítés
 

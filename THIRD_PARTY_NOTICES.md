@@ -74,3 +74,7 @@ The earlier npm font repackaging has been removed from the current source depend
 Before distributing a built web client, container or installer, identify **all actually included files** (including transitive dependencies, WASM, native libraries and optional assets), and include the original licence and attribution material their terms require. A package.json licence field and this inventory alone are not substitutes for those texts. Recheck the inventory whenever dependencies change. This source-only release does not claim to be a complete compliance assessment of every possible downstream build.
 
 For the project's warranty and clinical-scope information, see [LEGAL.md](LEGAL.md). No notice here alters third-party terms or overrides mandatory law.
+
+## Quantitative workspace additions
+
+See [the additional component inventory](docs/ADVANCED-THIRD-PARTY.md) for SimpleITK, scikit-image, OpenSlide, nnU-Net, TotalSegmentator, Stanford MIMI weights and the GPL/LGPL obligations of separately installed dependencies. The new model weights and runtime binaries are not bundled.

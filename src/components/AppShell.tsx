@@ -2,10 +2,12 @@ import {localize as l,useLanguage,setLanguage} from '../lib/i18n';
 import { Brain, CaretDown, ChartDonut, CirclesFour, FirstAidKit, FolderUser, Heartbeat, ListChecks, MagnifyingGlass, SidebarSimple, UsersThree, X } from "@phosphor-icons/react";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {DemoGuide} from './DemoGuide';
 import { WorkspaceHelp } from './WorkspaceHelp';
 import { useAppData } from '../lib/workspace';
 
 const navigation = [
+  { label: "Kvantitatív munkatér", to: "/advanced", icon: Brain },
   { label: "Vizsgálatok összehasonlítása", to: "/compare", icon: Brain },
   { label: "Döntéstől az eredményig", to: "/care", icon: ListChecks },
   { label: "Overview", to: "/", icon: CirclesFour },
@@ -21,7 +23,7 @@ const navigation = [
 ] as const;
 
 const routeLabels: Record<string, string> = {
-  compare: "Vizsgálatok összehasonlítása", care: "Döntéstől az eredményig", cases: "Patient pathways", board: "Tumour board", imaging: "Imaging workspace",
+  advanced: "Kvantitatív munkatér", compare: "Vizsgálatok összehasonlítása", care: "Döntéstől az eredményig", cases: "Patient pathways", board: "Tumour board", imaging: "Imaging workspace",
   tasks: "Task coordination", operations: "Operations", team: "Clinical team", scenarios:'Capacity lab', 'volume-lab':'3D scan lab', review:'Evidence & follow-up',
 };
 
@@ -46,7 +48,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     window.addEventListener("keydown", handleShortcut);
     return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
-  useEffect(() => { document.title = `${l(location.pathname === '/' ? 'Overview' : routeLabels[location.pathname.split('/')[1]] ?? 'Case workspace')} · NeuroFlow`; }, [location.pathname, language]);
+  useEffect(() => { document.title = `${l(location.pathname === '/' ? 'Overview' : routeLabels[location.pathname.split('/')[1]] ?? 'Case workspace')} · Leletív`; }, [location.pathname, language]);
   const breadcrumb = location.pathname === "/" ? "Operational overview" : routeLabels[location.pathname.split("/")[1]] ?? "Case workspace";
   const results = useMemo(() => {
     if (!data || !query.trim()) return [];
@@ -63,7 +65,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <div className="workspace-switcher">
           <span className="workspace-icon"><Brain size={18} /></span>
-          <span><strong>{l("Central Neuro Centre")}</strong><small>{l("Demo workspace")}</small></span>
+          <span><strong>{"Leletív"}</strong><small>{l("Demo workspace")}</small></span>
         </div>
         <button className="command-button" onClick={() => setSearchOpen(true)}>
           <MagnifyingGlass size={18} /><span>{l("Quick search")}</span><kbd>{l("⌘ K")}</kbd>
@@ -77,7 +79,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </NavLink>
           )))}
           <p className="nav-label nav-section">{language === "hu" ? "Képek és leletek" : "Images & reports"}</p>
-          {l(navigation.filter(item => ['/imaging', '/volume-lab', '/review', '/compare'].includes(item.to)).map(({ label, to, icon: Icon }) => (
+          {l(navigation.filter(item => ['/imaging', '/volume-lab', '/review', '/compare', '/advanced'].includes(item.to)).map(({ label, to, icon: Icon }) => (
             <NavLink key={to} to={to} className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
               <Icon size={20} /><span>{l(label)}</span>
             </NavLink>
@@ -87,7 +89,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </nav>
         <div className="sidebar-footer">
           <div className="data-status"><span />{l(error?'Connection needs attention':refreshing?'Refreshing workspace':'Local workspace')}</div>
-          <div className="profile-row"><div className="avatar">{l("A")}</div><div><strong>{l("Workspace owner")}</strong><span>{l("Workspace owner")}</span></div></div>
+          <div className="profile-row"><div className="avatar">{l("K")}</div><div><strong>{l("Research user")}</strong><span>{l("Workspace owner")}</span></div></div>
         </div>
       </aside>
       {l(mobileOpen && <button className="sidebar-scrim" onClick={() => setMobileOpen(false)} aria-label={l("Close navigation")} />)}
@@ -97,7 +99,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <strong>{l(breadcrumb)}</strong>
           <div className="topbar-spacer" /><div className="language-switch" role="group" aria-label={language==="hu"?"Felület nyelve":"Interface language"}><button aria-pressed={language==="hu"} onClick={()=>setLanguage("hu")}>HU</button><button aria-pressed={language==="en"} onClick={()=>setLanguage("en")}>EN</button></div><span className="synthetic-badge">{l("Demo workspace")}</span><button className="text-button refresh-button" disabled={refreshing} onClick={()=>void reload()}>{l(refreshing?'Refreshing…':'Refresh')}</button>
         </header>
-        <main id="main-content" className="page-content"><WorkspaceHelp key={location.pathname}/>{l(children)}</main>
+        <main id="main-content" className="page-content"><WorkspaceHelp key={location.pathname}/><DemoGuide/>{l(children)}</main>
       </div>
       {l(searchOpen && (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setSearchOpen(false)}>

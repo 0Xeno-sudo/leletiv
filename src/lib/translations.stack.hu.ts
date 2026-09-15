@@ -33,7 +33,7 @@ export const stackHungarian: Record<string, string> = {
   'Choose no more than 512 slices.': 'Legfeljebb 512 képszeletet válassz ki.',
   'Use JPG, PNG, WebP or BMP. Convert HEIC, TIFF, GIF and other formats to PNG first.': 'JPG-, PNG-, WebP- vagy BMP-fájlt válassz. A HEIC-, TIFF-, GIF- és más formátumokat előbb alakítsd PNG-vé.',
   'Use files up to 20 MB each and 128 MB in total.': 'Egy fájl legfeljebb 20 MB, az összes fájl együtt legfeljebb 128 MB lehet.',
-  'Use slices up to 2048 × 2048 pixels and a stack of at most 32 million voxels.': 'A képszeletek legfeljebb 2048 × 2048 képpontosak lehetnek; a teljes térfogat legfeljebb 32 millió voxelt tartalmazhat.',
+  'Use slices up to 2048 × 2048 pixels and a stack of at most 32 million voxels.': 'A képszeletek legfeljebb 2048 × 2048 képpontosak lehetnek; a teljes képanyag legfeljebb 32 millió térbeli képpontot tartalmazhat.',
   'Enter spacing values between 0.01 and 100.': 'A térközök értéke 0,01 és 100 között legyen.',
   'Invalid slice pixel data.': 'Érvénytelen képpontadatok a képszeletben.',
   'Image decoding is unavailable in this browser.': 'Ebben a böngészőben nem érhető el a képek feldolgozása.',

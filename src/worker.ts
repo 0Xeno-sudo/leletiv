@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import type { NewCaseInput, RequirementStatus, TaskStatus } from "./shared/types";
 import { validScenario, modelVersion } from './shared/simulation';
+import {demoApi} from './demo-api';
 import {scanApi} from './scan-api';
 import {careApi} from './care-api';
 import {reviewApi} from './review-api';
@@ -42,6 +43,7 @@ app.get("/api/ping", (c) => c.json({ ok: true }));
 app.route('/api/review',reviewApi);
 app.route('/api/care',careApi);
 app.route('/api/scans',scanApi);
+app.route('/api/demo',demoApi);
 
 app.get('/api/scenarios', async c => {
   const rows = await c['env'].DB.prepare('SELECT * FROM scenarios ORDER BY created_at DESC LIMIT 30').all();

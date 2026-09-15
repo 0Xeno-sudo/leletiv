@@ -12,7 +12,7 @@ export async function decodeVolume(file:File){
 }
 export function maskFile(source:ArrayBuffer,labels:Uint8Array,name='region-mask.nii'){
  const src=new DataView(source),little=src.getInt32(0,true)===348;
- const dims=[1,2,3].map(i=>src.getInt16(40+2*i,little));if(labels.length!==dims.reduce((a,b)=>a*b,1))throw new Error('Eltérő maszkgeometria.');
+ const dims=[1,2,3].map(i=>src.getInt16(40+2*i,little));if(labels.length!==dims.reduce((a,b)=>a*b,1))throw new Error('A területkijelölés képmérete eltér a forrásfelvételétől.');
  const bytes=new Uint8Array(352+labels.length);bytes.set(new Uint8Array(source,0,348));
  const h=new DataView(bytes.buffer);h.setInt16(70,2,little);h.setInt16(72,8,little);h.setFloat32(108,352,little);h.setFloat32(112,1,little);h.setFloat32(116,0,little);h.setFloat32(124,255,little);h.setFloat32(128,0,little);bytes.set(labels,352);
  return new File([bytes],name,{type:'application/octet-stream'});

@@ -1,7 +1,7 @@
 import {localize as l,recordText,useLanguage} from '../lib/i18n';
 import { ListBullets, Kanban, MagnifyingGlass } from '@phosphor-icons/react';
 import { useMemo,useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useSearchParams } from 'react-router-dom';
 import { useAppData } from '../lib/workspace';
 import { PageHeader,PriorityBadge,formatDate } from '../components/ui';
 import { isTaskOverdue,taskStatusLabels } from '../shared/workflow';
@@ -10,16 +10,16 @@ import {FollowupSummary} from '../components/FollowupSummary';
 
 export default function TasksPage(){
   const language=useLanguage();
- const {data,setTaskStatus,setTaskOwner}=useAppData();
+ const {data,setTaskStatus,setTaskOwner}=useAppData();const [params]=useSearchParams();const selectedCase=params.get('case');
  const [query,setQuery]=useState('');const [filter,setFilter]=useState('all');const [view,setView]=useState('list');const [error,setError]=useState('');const [pending,setPending]=useState<string[]>([]);
- const filtered=useMemo(()=>(data?.tasks??[]).filter(t=>l(`${t.title} ${t.patient_name} ${t.owner_name}`).toLowerCase().includes(query.toLowerCase())&&(filter==='all'||t.status===filter)),[data,query,filter,language]);
+ const filtered=useMemo(()=>(data?.tasks??[]).filter(t=>(!selectedCase||t.case_id===selectedCase)&&l(`${t.title} ${t.patient_name} ${t.owner_name}`).toLowerCase().includes(query.toLowerCase())&&(filter==='all'||t.status===filter)),[data,query,filter,language,selectedCase]);
  if(!data)return null;
  const change=async(id:string,action:()=>Promise<void>)=>{setPending(p=>[...p,id]);setError('');try{await action();}catch(e){setError(e instanceof Error?e.message:'Could not save task');}finally{setPending(p=>p.filter(v=>v!==id));}};
  const status=(t:ClinicalTask)=><select aria-label={l(`Status for ${t.title}`)} disabled={pending.includes(t.id)} className="inline-status-select" value={t.status} onChange={e=>void change(t.id,()=>setTaskStatus(t.id,e.target.value as TaskStatus))}>{l(Object.entries(taskStatusLabels).map(([value,label])=><option value={value} key={value}>{label==="Open"&&language==="hu"?"Nyitott":l(label)}</option>))}</select>;
  const owner=(t:ClinicalTask)=><select aria-label={l(`Owner for ${t.title}`)} disabled={pending.includes(t.id)} className="inline-status-select" value={t.owner_id??''} onChange={e=>void change(t.id,()=>setTaskOwner(t.id,e.target.value))}><option value="">{l("Unassigned")}</option>{l(data.team.map(m=><option key={m.id} value={m.id}>{l(m.name)}</option>))}</select>;
- return <><PageHeader title={l("Task coordination")} description={l("Clear ownership, visible blockers and a next action for every pathway.")} actions={<span className="small-label">{l(data.tasks.filter(t=>t.status==='done').length)}{l(" of ")}{l(data.tasks.length)}{l(" complete")}</span>}/>
+ return <><PageHeader title={l("Task coordination")} description={l("Clear ownership, visible blockers and a next action for every pathway.")} actions={<span className="small-label">{l(data.tasks.filter(t=>(!selectedCase||t.case_id===selectedCase)&&t.status==='done').length)}{l(" of ")}{l(data.tasks.filter(t=>!selectedCase||t.case_id===selectedCase).length)}{l(" complete")}</span>}/>
  {l(error&&<p role="alert" className="error-banner">{l(error)}</p>)}
- <FollowupSummary/>
+ <FollowupSummary caseId={selectedCase??undefined}/>{selectedCase&&<Link className="text-button" to="/tasks">Összes eset feladatai →</Link>}
  <section className="panel table-panel">
  <div className="table-toolbar"><div className="view-tabs"><button className={view==='list'?'active':''} onClick={()=>setView('list')}><ListBullets size={15}/>{l("List")}</button><button className={view==='board'?'active':''} onClick={()=>setView('board')}><Kanban size={15}/>{l("Board")}</button></div><label className="search-field"><MagnifyingGlass size={16}/><input aria-label={l("Search tasks")} placeholder={l("Search tasks")} value={query} onChange={e=>setQuery(e.target.value)}/></label></div>
  <div className="filter-row"><select aria-label={l("Filter task status")} value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">{l("All tasks")}</option>{l(Object.entries(taskStatusLabels).map(([v,label])=><option key={v} value={v}>{label==="Open"&&language==="hu"?"Nyitott":l(label)}</option>))}</select><span>{l(filtered.length)}{l(" tasks")}</span></div>

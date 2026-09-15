@@ -17,7 +17,7 @@ export default function DashboardPage(){
  const open=data.tasks.filter(t=>t.status!=='done');
  const exceptions=selected?data.cases.filter(c=>c.status===selected):data.cases.filter(c=>c.status!=='monitoring');
  return <>
-  <PageHeader title={l("Welcome to NeuroFlow")} description={l("The full pathway. Every dependency. A clear next step.")} actions={<Link className="button secondary" to="/scenarios">{l("Explore capacity lab ")}<ArrowUpRight size={15}/></Link>}/>
+  <PageHeader title={l("Welcome to Leletív")} description={l("The full pathway. Every dependency. A clear next step.")} actions={<Link className="button secondary" to="/scenarios">{l("Explore capacity lab ")}<ArrowUpRight size={15}/></Link>}/>
   <div className="overview-meta"><span>{l("Central Neuro Centre")}</span><span>{l(new Intl.DateTimeFormat(locale(),{day:'numeric',month:'long',year:'numeric'}).format(new Date()))}</span><span>{l("Synthetic dataset")}</span></div>
   <section className="overview-numbers" aria-label={l("Operational summary")}>
    {l([['Active pathways',data.cases.filter(c=>c.status!=='monitoring').length,'Across all clinical stages'],['Ready for board',data.cases.filter(c=>c.status==='board-ready').length,'Prepared for multidisciplinary review'],['Open actions',open.length,`${open.filter(t=>!t.owner_id).length} awaiting an owner`],['Blocked dependencies',blocked.length,'Requires coordination']].map(([label,count,detail])=><div key={label}><span>{l(label)}</span><strong>{l(count)}</strong><small>{l(detail)}</small></div>))}

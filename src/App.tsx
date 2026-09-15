@@ -18,6 +18,8 @@ const VolumePage = lazy(() => import('./pages/VolumePage'));
 const ComparePage = lazy(() => import('./pages/ComparePage'));
 const CarePage = lazy(() => import('./pages/CarePage'));
 const BriefPage = lazy(() => import('./pages/BriefPage'));
+const AdvancedPage = lazy(() => import('./pages/AdvancedPage'));
+const AdvancedReportPage = lazy(() => import('./pages/AdvancedReportPage'));
 const ReviewPage = lazy(() => import('./pages/ReviewPage'));
 
 import {DataContext,type DataContextValue} from './lib/workspace';
@@ -106,6 +108,8 @@ export function App() {
             <Route path="/cases" element={<CasesPage />} />
             <Route path="/cases/:caseId" element={<CaseDetailPage />} />
             <Route path="/cases/:caseId/brief" element={<BriefPage />} />
+            <Route path="/advanced" element={<AdvancedPage />} />
+            <Route path="/advanced/report/:jobId" element={<AdvancedReportPage />} />
             <Route path="/compare" element={<ComparePage />} />
             <Route path="/care" element={<CarePage />} />
             <Route path="/board" element={<BoardPage />} />

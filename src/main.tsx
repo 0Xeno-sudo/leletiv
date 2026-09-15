@@ -1,3 +1,4 @@
+import './demo.css';
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -6,6 +7,8 @@ import "./styles.css";
 import './polish.css';
 import './refinement.css';
 import './clinical-tools.css';
+import './advanced.css';
+import './spacing.css';
 import {getLanguage,setLanguage} from './lib/i18n';
 setLanguage(getLanguage());
 

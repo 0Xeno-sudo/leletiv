@@ -19,7 +19,7 @@ def read_ct(path):
                 n+=len(chunk)
                 if n>MAX_EXPANDED:raise InputError('Túl nagy tömörítetlen CT.')
     image=nib.load(path)
-    if not isinstance(image,nib.Nifti1Image) or len(image.shape)!=3 or min(image.shape)<16 or np.prod(image.shape)>12_000_000:raise InputError('Egyetlen 3D NIfTI-1 CT szükséges, legfeljebb 12 millió voxellel.')
+    if not isinstance(image,nib.Nifti1Image) or len(image.shape)!=3 or min(image.shape)<16 or np.prod(image.shape)>12_000_000:raise InputError('Egyetlen 3D NIfTI-1 CT szükséges, legfeljebb 12 millió térbeli képponttal.')
     if image.header.get_xyzt_units()[0]!='mm' or not (int(image.header['qform_code']) or int(image.header['sform_code'])):raise InputError('Ismert térbeli orientáció és milliméteres kalibráció szükséges. Képszeletekből épített térfogat nem alkalmas.')
     if not np.isfinite(image.affine).all() or abs(np.linalg.det(image.affine[:3,:3]))<1e-8:raise InputError('Érvénytelen CT-geometria.')
     data=image.get_fdata(dtype=np.float32)
@@ -53,7 +53,7 @@ class LungEngine:
         # Bound resampling allocation before invoking scipy.
         corners=np.array([[x,y,z,1] for x in [0,original.shape[0]-1] for y in [0,original.shape[1]-1] for z in [0,original.shape[2]-1]])@original.affine.T
         shape=np.ceil(np.ptp(corners[:,:3],axis=0)/SPACING).astype(int)+1
-        if np.prod(shape)>16_000_000:raise InputError('Az újramintavételezett CT túl nagy. Legfeljebb 16 millió voxel támogatott a helyi CPU-profilban.')
+        if np.prod(shape)>16_000_000:raise InputError('Az újramintavételezett CT túl nagy. Legfeljebb 16 millió térbeli képpont támogatott a helyi CPU-profilban.')
         image=resample_to_output(original,voxel_sizes=SPACING,order=1,cval=-1024)
         data=image.get_fdata(dtype=np.float32)
         if cancel.is_set():raise Cancelled()

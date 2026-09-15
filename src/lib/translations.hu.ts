@@ -3,17 +3,12 @@ import {reviewHungarian} from './translations.review.hu';
 import {pinHungarian} from './translations.pin.hu';
 import {stackHungarian} from './translations.stack.hu';
 export const hungarian:Record<string,string>={...pipelineHungarian,...reviewHungarian,...pinHungarian,...stackHungarian,...Object.fromEntries(`
-Name|Név
-Role|Szerepkör
-Specialty|Szakterület
-Add team member|Munkatárs felvétele
-Use fictional names in this research workspace.|Ebben a kutatási munkatérben kitalált neveket használjon.
-No scan loaded|Nincs megnyitott képanyag
-Welcome to NeuroFlow|Üdvözöljük a NeuroFlow-ban
+Welcome back, Adam|Üdv újra, Adam
 Clinical workspace|Klinikai munkatér
 Central Neuro Centre|Központi Neurocentrum
 Demo workspace|Bemutató munkatér
 Workspace|Munkatér
+Research user|Kutató
 Workspace owner|A munkatér tulajdonosa
 Quick search|Gyorskeresés
 Overview|Áttekintés
@@ -251,8 +246,8 @@ Add to archive|Hozzáadás az archívumhoz
 Uploading...|Feltöltés…
 Upload failed|A feltöltés sikertelen
 Volumetric review|Térfogati áttekintés
-Real voxels. Clear spatial context.|Valódi voxelek. Átlátható térbeli összefüggések.
-Review a NIfTI scan in linked slice views and 3D. Import a matching region mask to inspect its shape and volume.|Tekintsd át a NIfTI-felvételt összekapcsolt metszeti és 3D nézetekben. Importálj hozzá illeszkedő régiómaszkot az alak és a térfogat vizsgálatához.
+Real voxels. Clear spatial context.|Képalkotó felvételek, áttekinthető térbeli megjelenítés.
+Review a NIfTI scan in linked slice views and 3D. Import a matching region mask to inspect its shape and volume.|Tekintsd át a NIfTI-felvételt összekapcsolt metszeti és 3D nézetekben. Tölts be hozzá illeszkedő területkijelölést az alak és a térfogat vizsgálatához.
 The volume workspace is separate from this archive selection.|A térfogati munkatér független az archívum itt kiválasztott elemétől.
 Operations control|Működési központ
 Connect clinical demand with rooms, equipment, people and downstream capacity.|Kapcsold össze az ellátási igényeket a helyiségekkel, eszközökkel, munkatársakkal és a további ellátás kapacitásával.
@@ -396,28 +391,30 @@ Drag to rotate in 3D. Scroll through slices. Right-drag to adjust contrast.|Húz
 R / L: anatomical right / left|R / L: anatómiai jobb / bal oldal
 Region opacity|A régió fedettsége
 3D cutaway|3D vágósík
-Source & segmentation|Forrás és szegmentálás
+Source & segmentation|Felvétel és kijelölt területek
 Use de-identified research data only. Files stay local and are not sent to an AI service.|Csak személyazonosításra nem alkalmas kutatási adatot használj. A fájlok helyben maradnak, nem küldjük őket MI-szolgáltatásnak.
 Open scan volume|Térfogati felvétel megnyitása
-Import region mask|Régiómaszk importálása
+Import region mask|Területkijelölés betöltése
 NIfTI-1 · .nii / .nii.gz · up to 64 MB|NIfTI-1 · .nii / .nii.gz · legfeljebb 64 MB
 Add simulated region|Szimulált régió hozzáadása
 Region inspection|Régióvizsgálat
-No region mask|Nincs régiómaszk
+No region mask|Nincs kijelölt terület
 Simulated region · not a tumour finding|Szimulált régió · nem daganatos lelet
-All non-zero labels combined|Az összes nem nulla címke együtt
-Label|Címke
-Remove mask|Maszk eltávolítása
-Import a matching segmentation to display the labelled region. A scan alone does not identify a tumour.|A jelölt régió megjelenítéséhez importálj illeszkedő szegmentálást. A felvétel önmagában nem azonosít daganatot.
-Voxel grid|Voxelrács
-Voxel spacing|Voxeltávolság
+All non-zero labels combined|A kijelölt területek össztérfogata
+Label|Területazonosító
+Remove mask|Kijelölés eltávolítása
+Import a matching segmentation to display the labelled region. A scan alone does not identify a tumour.|A megjelenítéshez tölts be a felvételhez illeszkedő területkijelölést. A felvétel megnyitása önmagában nem azonosít daganatot.
+Kiinduló geometriai fantom · szintetikus próbakép|Kiinduló vizsgálat · mesterséges próbakép
+Kontroll geometriai fantom · szintetikus próbakép|Kontrollvizsgálat · mesterséges próbakép
+Voxel grid|Képméret és szeletszám
+Voxel spacing|Térbeli felbontás
 Review notes|Áttekintési jegyzetek
 Observations for the review, not an automated diagnosis|Megfigyelések az áttekintéshez, nem automatikus diagnózis
 Export measurements|Mérések exportálása
-Download mask (.nii)|Maszk letöltése (.nii)
-Export AI job manifest|MI-feladatleíró exportálása
+Download mask (.nii)|Kijelölés letöltése (.nii)
+Export AI job manifest|MI-feldolgozási adatok letöltése
 What this viewer does|A megjelenítő működése
-Renders the actual scan volume and an imported label mask in matching coordinates. Measurements come from labelled voxels and physical spacing. They are not diagnostic conclusions.|A tényleges térfogati felvételt és az importált címkemaszkot azonos koordinátákban jeleníti meg. A mérések a címkézett voxelekből és a fizikai távolságokból származnak. Nem diagnosztikai következtetések.
+Renders the actual scan volume and an imported label mask in matching coordinates. Measurements come from labelled voxels and physical spacing. They are not diagnostic conclusions.|A felvételt és a kijelölt területeket térben illesztve jeleníti meg. A térfogatot a kijelölt képrészletek és a felvétel térbeli felbontása alapján számítja. A mérések nem jelentenek diagnózist.
 AI segmentation · not connected|MI-szegmentálás · nincs csatlakoztatva
 Automatic tumour segmentation needs a dedicated, validated medical model. OpenAI, Gemini and OpenRouter image generation are not substitutes. The job manifest and mask import define the future integration boundary; no API key is needed for this viewer.|Az automatikus daganatszegmentáláshoz erre a célra készült, validált orvosi modell szükséges. Az OpenAI, a Gemini és az OpenRouter képgenerálása ezt nem helyettesíti. A feladatleíró és a maszkimport adja a későbbi integráció alapját; ehhez a megjelenítőhöz nem kell API-kulcs.
 Demo attribution|A bemutató forrása
@@ -425,17 +422,17 @@ MNI152 / ICBM average-brain atlas, McGill University, distributed by NiiVue. The
 Invalid NIfTI header.|Érvénytelen NIfTI-fejléc.
 The viewer could not start.|A megjelenítőt nem sikerült elindítani.
 The volume could not be loaded.|A térfogati felvételt nem sikerült betölteni.
-The mask contains no labelled voxels.|A maszk nem tartalmaz címkézett voxeleket.
-The mask does not match the scan grid. Registration is required.|A maszk nem illeszkedik a felvétel rácsához. Regisztráció szükséges.
+The mask contains no labelled voxels.|A fájl nem tartalmaz kijelölt területet.
+The mask does not match the scan grid. Registration is required.|A kijelölés képmérete, felbontása vagy térbeli helyzete eltér a felvételétől. Térbeli illesztés szükséges.
 The scan needs valid physical units for volume measurements.|A térfogatméréshez érvényes fizikai mértékegységek szükségesek.
-Only a single 3D label volume is supported.|Csak egyetlen 3D címketérfogat támogatott.
-Use an integer label mask with values from 0 to 255, not a probability map.|0 és 255 közötti egész értékű címkemaszkot használj, ne valószínűségi térképet.
+Only a single 3D label volume is supported.|Egyetlen 3D területkijelölési fájl tölthető be.
+Use an integer label mask with values from 0 to 255, not a probability map.|A kijelölési fájlban minden területhez 1–255 közötti egész azonosító tartozzon; a háttér értéke 0. Valószínűségi térkép nem használható.
 Choose a NIfTI volume (.nii or .nii.gz). DICOM folders and photographs are not supported here.|Válassz NIfTI-térfogatot (.nii vagy .nii.gz). A DICOM-mappák és fényképek itt nem támogatottak.
 The local viewer accepts files up to 64 MB.|A helyi megjelenítő legfeljebb 64 MB-os fájlokat fogad.
 The decompressed volume is too large.|A kitömörített térfogat túl nagy.
 Use a single-file NIfTI-1 volume.|Egyfájlos NIfTI-1 térfogatot használj.
-Use one 3D volume with at most 32 million voxels.|Egyetlen, legfeljebb 32 millió voxeles 3D térfogatot használj.
-The NIfTI voxel data is incomplete or unsupported.|A NIfTI voxeladatai hiányosak vagy nem támogatottak.
+Use one 3D volume with at most 32 million voxels.|Egyetlen, legfeljebb 32 millió térbeli képpontból álló 3D képanyagot használj.
+The NIfTI voxel data is incomplete or unsupported.|A NIfTI-fájl képi adatai hiányosak vagy nem támogatottak.
 Case handoff brief|Esetátadási összefoglaló
 A concise, source-based handover for the next team.|Tömör, forrásadatokra épülő átadás a következő csapatnak.
 Back to pathway|Vissza a betegúthoz
@@ -452,10 +449,10 @@ Imaging inventory|Képalkotási nyilvántartás
 No linked studies.|Nincs kapcsolt vizsgálat.
 Generated from recorded workspace data. Not an automated clinical recommendation.|A munkatérben rögzített adatokból készült. Nem automatikus klinikai javaslat.
 Source|Forrás
-Mask|Maszk
-Grid|Rács
+Mask|Kijelölt terület
+Grid|Képméret és szeletszám
 Notes|Jegyzetek
-Voxels|Voxelek
+Voxels|Térbeli képpontok száma
 Volume (mL)|Térfogat (mL)
 Unvalidated research visualization|Nem validált kutatási szemléltetés
 NeuroFlow capacity model|NeuroFlow kapacitásmodell
@@ -623,5 +620,12 @@ Imaging object not found.|A képalkotási fájl nem található.
 API route not found.|Az API-végpont nem található.
 Invalid JSON request.|Érvénytelen JSON-kérés.
 The request could not be completed.|A kérést nem sikerült teljesíteni.
-Use an unscaled integer mask. Rescale slope and intercept must be 1 and 0.|Nem skálázott egész értékű maszkot használj. A skálázási szorzó 1, az eltolás 0 legyen.
+Use an unscaled integer mask. Rescale slope and intercept must be 1 and 0.|A kijelölési fájl egész területazonosítókat tartalmazzon átskálázás nélkül. A skálázási szorzó 1, az eltolás 0 legyen.
+Name|Név
+Role|Szerepkör
+Specialty|Szakterület
+Add team member|Munkatárs felvétele
+Use fictional names in this research workspace.|Ebben a kutatási munkatérben kitalált neveket használjon.
+No scan loaded|Nincs megnyitott képanyag
+Welcome to Leletív|Üdvözöljük a Leletívben
 `.trim().split('\n').map(row=>row.split('|')))};

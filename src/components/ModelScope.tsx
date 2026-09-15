@@ -16,7 +16,7 @@ export function ModelScope() {
         </p>
         <p>
           {hu
-            ? "Ehhez az alkalmazáshoz nincs klinikai érzékenységi vizsgálat vagy ChatGPT-, Claude- és Gemini-összehasonlítás. Kis elváltozások kimaradhatnak. Az üres maszk nem zár ki betegséget."
+            ? "Ehhez az alkalmazáshoz nincs klinikai érzékenységi vizsgálat vagy ChatGPT-, Claude- és Gemini-összehasonlítás. Kis elváltozások kimaradhatnak. A kijelölés nélküli eredmény nem zár ki betegséget."
             : "There is no clinical sensitivity study or head-to-head ChatGPT, Claude or Gemini benchmark for this application. Small lesions may be missed. An empty mask does not rule out disease."}
         </p>
       </div>

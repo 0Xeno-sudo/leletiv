@@ -12,4 +12,4 @@ export function growRegion(data:Float32Array,g:VolumeGeometry,seed:number[],low:
  }
  return {labels,voxels:count,mean:sum/count,min,max,seed,low,high,radiusMm};
 }
-export function maskDifference(a:Uint8Array,b:Uint8Array){if(a.length!==b.length)throw new Error('Eltérő maszkgeometria.');let added=0,removed=0,overlap=0;const labels=new Uint8Array(a.length);for(let i=0;i<a.length;i++){if(a[i]&&b[i]){labels[i]=1;overlap++;}else if(b[i]){labels[i]=2;added++;}else if(a[i]){labels[i]=3;removed++;}}return{labels,added,removed,overlap};}
+export function maskDifference(a:Uint8Array,b:Uint8Array){if(a.length!==b.length)throw new Error('A területkijelölések képmérete eltér.');let added=0,removed=0,overlap=0;const labels=new Uint8Array(a.length);for(let i=0;i<a.length;i++){if(a[i]&&b[i]){labels[i]=1;overlap++;}else if(b[i]){labels[i]=2;added++;}else if(a[i]){labels[i]=3;removed++;}}return{labels,added,removed,overlap};}
